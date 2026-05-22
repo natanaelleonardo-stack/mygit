@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informou — Você fica sabendo primeiro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--azul:#091F3D;--azul-claro:#1A56A0;--dourado:#C8960C;--dourado-claro:#F5A623;--cinza-med:#4A5568;--cinza-claro:#F7F6F2;--cinza-borda:#D9D4C7;--branco:#FAFAF8;--texto:#1C1C1C;--vermelho:#C0392B;--verde:#1D9E75;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--branco);color:var(--texto);line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+.topbar{background:#fff;padding:6px 0;border-bottom:1px solid var(--cinza-borda);}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;}
+.topbar-data{font-family:'DM Sans',sans-serif;font-size:11px;color:#555;letter-spacing:1px;}
+.topbar-slogan{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--cinza-med);letter-spacing:2px;font-style:italic;}
+.header{background:#fff;padding:4px 0;border-bottom:1px solid var(--cinza-borda);}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 20px;}
+.nav{background:#fff;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--azul);box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;}
+.nav-links{display:flex;list-style:none;}
+.nav-links li a{display:block;padding:13px 12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:#1C1C1C;letter-spacing:1px;text-transform:uppercase;border-bottom:3px solid transparent;transition:all .2s;cursor:pointer;}
+.nav-links li a:hover,.nav-links li a.ativo{color:var(--azul);border-bottom-color:var(--dourado-claro);}
+.nav-busca{display:flex;gap:8px;}
+.nav-busca input{background:var(--cinza-claro);border:1px solid var(--cinza-borda);border-radius:3px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:#1C1C1C;width:150px;outline:none;}
+.nav-busca button{background:var(--dourado);border:none;border-radius:3px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--azul);cursor:pointer;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:14px 0;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--azul);border-radius:2px;}
+.pagina{display:none;}.pagina.ativa{display:block;}
+.breaking{background:var(--vermelho);padding:8px 0;overflow:hidden;}
+.breaking-inner{padding:0 20px;display:flex;align-items:center;}
+.breaking-tag{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:#fff;background:rgba(0,0,0,0.3);padding:3px 14px;letter-spacing:2px;white-space:nowrap;text-transform:uppercase;flex-shrink:0;margin-right:16px;position:relative;}
+.breaking-tag::after{content:'';position:absolute;right:-8px;top:0;bottom:0;width:0;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:8px solid rgba(0,0,0,0.3);}
+.breaking-ticker-wrap{overflow:hidden;flex:1;}
+.breaking-ticker{display:inline-flex;white-space:nowrap;animation:ticker 30s linear infinite;}
+.breaking-ticker:hover{animation-play-state:paused;}
+.breaking-ticker-item{font-family:'DM Sans',sans-serif;font-size:13px;color:#fff;padding-right:60px;}
+.breaking-ticker-item::before{content:'·';margin-right:12px;color:var(--dourado-claro);font-size:18px;vertical-align:middle;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.main{max-width:1200px;margin:0 auto;padding:28px 20px;}
+.destaque-grid{display:grid;grid-template-columns:2fr 1fr;border:1px solid var(--cinza-borda);margin-bottom:28px;}
+.destaque-principal{position:relative;overflow:hidden;cursor:pointer;border-right:1px solid var(--cinza-borda);}
+.destaque-img{width:100%;height:380px;object-fit:cover;display:block;filter:brightness(.5);transition:filter .3s;}
+.destaque-principal:hover .destaque-img{filter:brightness(.4);}
+.destaque-overlay{position:absolute;bottom:0;left:0;right:0;padding:28px;background:linear-gradient(transparent,rgba(9,31,61,.95));}
+.destaque-categoria{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--dourado-claro);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.destaque-titulo{font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,28px);font-weight:700;color:#fff;line-height:1.25;margin-bottom:10px;}
+.destaque-resumo{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+.destaque-lateral{display:flex;flex-direction:column;}
+.destaque-lateral-item{flex:1;padding:16px 18px;border-bottom:1px solid var(--cinza-borda);cursor:pointer;transition:background .2s;}
+.destaque-lateral-item:last-child{border-bottom:none;}
+.destaque-lateral-item:hover{background:var(--cinza-claro);}
+.destaque-lateral-item .destaque-categoria{color:var(--azul-claro);}
+.destaque-lateral-item .destaque-titulo{font-size:15px;color:var(--texto);margin-bottom:4px;}
+.destaque-lateral-item .destaque-resumo{font-size:12px;color:var(--cinza-med);}
+.secao-titulo{display:flex;align-items:center;margin-bottom:18px;padding-bottom:10px;border-bottom:3px solid var(--azul);position:relative;}
+.secao-titulo::after{content:'';position:absolute;bottom:-5px;left:0;width:60px;height:2px;background:var(--dourado);}
+.secao-titulo h2{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--azul);}
+.secao-titulo a{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--azul-claro);margin-left:auto;font-weight:500;cursor:pointer;}
+.noticias-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:32px;}
+.noticia-card{cursor:pointer;border-bottom:1px solid var(--cinza-borda);padding-bottom:16px;transition:opacity .2s;}
+.noticia-card:hover{opacity:.8;}
+.noticia-img{width:100%;height:155px;object-fit:cover;display:block;margin-bottom:10px;border:1px solid var(--cinza-borda);}
+.noticia-categoria{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;color:var(--azul-claro);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;display:block;}
+.noticia-titulo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--texto);line-height:1.3;margin-bottom:6px;}
+.noticia-resumo{font-family:'Source Serif 4',serif;font-size:13px;color:var(--cinza-med);line-height:1.5;margin-bottom:5px;}
+.noticia-meta{font-family:'DM Sans',sans-serif;font-size:11px;color:#999;}
+.layout-sidebar{display:grid;grid-template-columns:1fr 280px;gap:32px;margin-bottom:32px;}
+.sidebar-bloco{margin-bottom:22px;border:1px solid var(--cinza-borda);padding:16px;}
+.sidebar-titulo{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--azul);border-bottom:2px solid var(--azul);padding-bottom:7px;margin-bottom:11px;}
+.sidebar-item{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--cinza-borda);cursor:pointer;}
+.sidebar-item:last-child{border-bottom:none;}
+.sidebar-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--cinza-borda);line-height:1;min-width:32px;}
+.sidebar-item-titulo{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:var(--texto);line-height:1.4;}
+.newsletter-form{display:flex;flex-direction:column;gap:8px;}
+.newsletter-form p{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cinza-med);line-height:1.5;}
+.newsletter-form input{border:1px solid var(--cinza-borda);padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--texto);outline:none;width:100%;}
+.newsletter-form button{background:var(--azul);color:#fff;border:none;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.noticia-full{max-width:800px;margin:0 auto;padding:34px 20px;}
+.noticia-full-breadcrumb{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cinza-med);margin-bottom:16px;display:flex;gap:6px;}
+.noticia-full-breadcrumb span{color:var(--azul-claro);cursor:pointer;}
+.noticia-full-categoria{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--azul-claro);letter-spacing:2px;text-transform:uppercase;margin-bottom:11px;display:block;}
+.noticia-full-titulo{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,40px);font-weight:900;color:var(--azul);line-height:1.15;margin-bottom:13px;letter-spacing:-1px;}
+.noticia-full-subtitulo{font-family:'Source Serif 4',serif;font-size:18px;font-weight:300;color:var(--cinza-med);line-height:1.4;margin-bottom:18px;font-style:italic;}
+.noticia-full-meta{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid var(--cinza-borda);border-bottom:3px solid var(--azul);margin-bottom:24px;}
+.noticia-full-meta span{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cinza-med);}
+.noticia-full-img{width:100%;max-height:440px;object-fit:cover;display:block;margin-bottom:9px;border:1px solid var(--cinza-borda);}
+.noticia-full-legenda{font-family:'DM Sans',sans-serif;font-size:12px;color:#999;font-style:italic;margin-bottom:24px;text-align:center;}
+.noticia-full-corpo{font-family:'Source Serif 4',serif;font-size:18px;line-height:1.8;color:var(--texto);}
+.noticia-full-corpo p{margin-bottom:18px;}
+.noticia-full-corpo p:first-child::first-letter{font-family:'Playfair Display',serif;font-size:68px;font-weight:900;color:var(--azul);float:left;line-height:.75;margin-right:8px;margin-top:8px;}
+.noticia-full-corpo blockquote{border-left:4px solid var(--dourado);padding:13px 20px;margin:22px 0;background:var(--cinza-claro);font-style:italic;font-size:18px;color:var(--azul);}
+.noticia-compartilhar{display:flex;align-items:center;gap:10px;padding:16px 0;border-top:1px solid var(--cinza-borda);border-bottom:1px solid var(--cinza-borda);margin:24px 0;}
+.noticia-compartilhar span{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--cinza-med);}
+.btn-share{padding:7px 13px;border:1px solid var(--cinza-borda);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border-radius:2px;}
+.btn-share.wpp{background:#25D366;color:#fff;border-color:#25D366;}
+.btn-share.fb{background:#1877F2;color:#fff;border-color:#1877F2;}
+.btn-share.tw{background:#1DA1F2;color:#fff;border-color:#1DA1F2;}
+.categoria-hero{background:var(--azul);padding:26px 20px;margin-bottom:26px;}
+.categoria-hero-inner{max-width:1200px;margin:0 auto;}
+.categoria-hero h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:#fff;letter-spacing:-1px;}
+.categoria-hero p{font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(255,255,255,.6);margin-top:4px;}
+.noticia-lista-item{display:grid;grid-template-columns:155px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--cinza-borda);cursor:pointer;transition:background .2s;}
+.noticia-lista-item:hover{background:var(--cinza-claro);padding-left:10px;padding-right:10px;margin:0 -10px;}
+.noticia-lista-img{width:155px;height:95px;object-fit:cover;border:1px solid var(--cinza-borda);}
+.noticia-lista-titulo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--texto);line-height:1.3;margin-bottom:5px;}
+.noticia-lista-resumo{font-family:'Source Serif 4',serif;font-size:13px;color:var(--cinza-med);line-height:1.5;margin-bottom:5px;}
+.cls-hero{background:var(--azul);padding:32px 20px;}
+.cls-hero-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.cls-hero h1{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,32px);font-weight:900;color:#fff;letter-spacing:-1px;}
+.cls-hero p{font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(255,255,255,.65);margin-top:4px;}
+.btn-anunciar{background:var(--dourado-claro);color:var(--azul);border:none;padding:11px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;border-radius:3px;cursor:pointer;white-space:nowrap;}
+.cats-bar{background:#fff;border-bottom:1px solid var(--cinza-borda);padding:10px 0;overflow-x:auto;}
+.cats-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;gap:7px;}
+.cat-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid var(--cinza-borda);border-radius:99px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--cinza-med);background:#fff;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.cat-btn:hover,.cat-btn.catativo{background:var(--azul);color:#fff;border-color:var(--azul);}
+.cls-filtros{display:flex;gap:9px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.cls-filtros input{flex:1;min-width:170px;border:1px solid var(--cinza-borda);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;border-radius:3px;outline:none;background:#fff;}
+.cls-filtros select{border:1px solid var(--cinza-borda);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;border-radius:3px;outline:none;background:#fff;cursor:pointer;}
+.btn-buscar{background:var(--azul);color:#fff;border:none;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;border-radius:3px;cursor:pointer;}
+.btn-buscar.sec{background:transparent;color:var(--azul);border:1px solid var(--azul);}
+.resultado-count{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cinza-med);margin-bottom:13px;}
+.cls-secao-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;}
+.anuncio-card{background:#fff;border:1px solid var(--cinza-borda);border-radius:5px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;font-family:'DM Sans',sans-serif;}
+.anuncio-card:hover{border-color:var(--azul-claro);transform:translateY(-2px);}
+.anuncio-card.destaque{border:2px solid var(--dourado-claro);position:relative;}
+.selo-destaque{position:absolute;top:8px;left:8px;background:var(--dourado-claro);color:var(--azul);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;z-index:2;}
+.card-foto{width:100%;height:170px;object-fit:cover;display:block;}
+.card-body{padding:10px;}
+.card-cat{font-size:10px;font-weight:700;color:var(--azul-claro);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;display:block;}
+.card-titulo{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--texto);line-height:1.3;margin-bottom:4px;}
+.card-preco{font-size:15px;font-weight:700;color:var(--azul);margin-bottom:4px;}
+.card-preco.gratis{color:var(--verde);}
+.card-local{font-size:11px;color:var(--cinza-med);}
+.card-meta{display:flex;align-items:center;justify-content:space-between;margin-top:7px;padding-top:7px;border-top:1px solid var(--cinza-borda);}
+.card-tempo{font-size:10px;color:#999;}
+.btn-zap{background:#25D366;color:#fff;border:none;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;}
+.anuncio-full{max-width:880px;margin:0 auto;padding:26px 20px;}
+.anuncio-breadcrumb{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cinza-med);margin-bottom:16px;display:flex;gap:5px;}
+.anuncio-breadcrumb span{color:var(--azul-claro);cursor:pointer;}
+.anuncio-layout{display:grid;grid-template-columns:1fr 280px;gap:24px;}
+.anuncio-foto-main{width:100%;height:300px;object-fit:cover;border:1px solid var(--cinza-borda);border-radius:4px;display:block;margin-bottom:16px;}
+.anuncio-sem-foto-box{width:100%;height:80px;background:var(--cinza-claro);border:1px solid var(--cinza-borda);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cinza-med);margin-bottom:16px;}
+.anuncio-titulo{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,28px);font-weight:900;color:var(--azul);line-height:1.2;margin-bottom:8px;}
+.anuncio-preco{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:var(--azul);margin-bottom:12px;}
+.anuncio-preco.gratis{color:var(--verde);}
+.anuncio-desc{font-family:'Source Serif 4',serif;font-size:15px;line-height:1.75;color:var(--texto);margin-bottom:16px;}
+.anuncio-detalhes{border:1px solid var(--cinza-borda);border-radius:4px;overflow:hidden;margin-bottom:16px;}
+.detalhe-row{display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid var(--cinza-borda);font-family:'DM Sans',sans-serif;font-size:13px;}
+.detalhe-row:last-child{border-bottom:none;}
+.detalhe-row label{color:var(--cinza-med);min-width:75px;font-size:12px;}
+.detalhe-row span{color:var(--texto);font-weight:500;}
+.card-anunciante{background:#fff;border:1px solid var(--cinza-borda);border-radius:5px;padding:16px;position:sticky;top:80px;}
+.card-anunciante h3{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--azul);margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid var(--azul);}
+.anunciante-nome{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:var(--texto);margin-bottom:3px;}
+.anunciante-desde{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cinza-med);margin-bottom:14px;}
+.btn-wpp-grande{display:block;width:100%;background:#25D366;color:#fff;border:none;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;border-radius:3px;cursor:pointer;text-align:center;margin-bottom:8px;}
+.aviso-anuncio{font-family:'DM Sans',sans-serif;font-size:11px;color:#999;text-align:center;line-height:1.5;}
+.selo-destaque-full{display:inline-flex;align-items:center;gap:5px;background:var(--dourado-claro);color:var(--azul);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.form-cls-hero{background:var(--azul);padding:24px 20px;}
+.form-cls-hero-inner{max-width:720px;margin:0 auto;}
+.form-cls-hero h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#fff;}
+.form-cls-hero p{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,.65);margin-top:5px;}
+.form-wrap{max-width:720px;margin:0 auto;padding:24px 20px;}
+.form-step{background:#fff;border:1px solid var(--cinza-borda);border-radius:5px;padding:18px;margin-bottom:14px;}
+.form-step-titulo{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--azul);margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid var(--azul);display:flex;align-items:center;gap:8px;}
+.step-num{background:var(--azul);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;flex-shrink:0;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-row.full{grid-template-columns:1fr;}
+.form-grupo label{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--azul);display:block;margin-bottom:4px;}
+.form-grupo input,.form-grupo select,.form-grupo textarea{width:100%;border:1px solid var(--cinza-borda);padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--texto);border-radius:3px;outline:none;background:#fff;transition:border-color .2s;}
+.form-grupo input:focus,.form-grupo select:focus,.form-grupo textarea:focus{border-color:var(--azul-claro);}
+.form-grupo textarea{resize:vertical;min-height:85px;}
+.planos-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.plano-opcao{border:2px solid var(--cinza-borda);border-radius:5px;padding:14px;cursor:pointer;transition:all .2s;position:relative;}
+.plano-opcao.sel{border-color:var(--dourado-claro);background:#FFFBF0;}
+.plano-opcao input[type=radio]{position:absolute;opacity:0;}
+.plano-nome{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--texto);margin-bottom:4px;}
+.plano-preco{font-family:'DM Sans',sans-serif;font-size:19px;font-weight:700;color:var(--azul);margin-bottom:8px;}
+.plano-item{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cinza-med);margin-bottom:2px;}
+.plano-item.ok{color:var(--verde);}.plano-item.no{color:#ccc;}
+.upload-area{background:var(--cinza-claro);border:2px dashed var(--cinza-borda);border-radius:5px;padding:20px;text-align:center;font-family:'DM Sans',sans-serif;color:var(--cinza-med);font-size:13px;}
+.upload-area.desbloqueado{background:#FFFBF0;border-color:var(--dourado-claro);cursor:pointer;}
+.btn-submit{width:100%;background:var(--azul);color:#fff;border:none;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;border-radius:3px;cursor:pointer;}
+.sucesso-box{background:#E8F9F3;border:1px solid #5DCAA5;border-radius:5px;padding:24px;text-align:center;margin-bottom:14px;display:none;}
+.sucesso-box h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#0F6E56;margin-bottom:5px;}
+.sucesso-box p{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--verde);}
+.painel-hero{background:var(--azul);padding:24px 20px;}
+.painel-hero-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.painel-hero h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;}
+.painel-hero p{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,.6);margin-top:2px;}
+.painel-main{max-width:1200px;margin:0 auto;padding:20px;}
+.painel-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:20px;}
+.stat-card{background:#fff;border:1px solid var(--cinza-borda);border-radius:5px;padding:12px;text-align:center;}
+.stat-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--azul);margin-bottom:2px;}
+.stat-lbl{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--cinza-med);}
+.painel-titulo-sec{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--azul);margin-bottom:12px;padding-bottom:7px;border-bottom:2px solid var(--azul);}
+.painel-tabela{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--cinza-borda);overflow:hidden;font-family:'DM Sans',sans-serif;}
+.painel-tabela th{background:var(--cinza-claro);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--cinza-med);padding:9px 12px;text-align:left;border-bottom:1px solid var(--cinza-borda);}
+.painel-tabela td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--cinza-borda);vertical-align:middle;}
+.painel-tabela tr:last-child td{border-bottom:none;}
+.painel-tabela tr:hover td{background:var(--cinza-claro);}
+.status-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:99px;font-size:11px;font-weight:700;}
+.status-ativo{background:#E8F9F3;color:#0F6E56;}
+.status-expirado{background:#FCEBEB;color:#A32D2D;}
+.status-destaque{background:#FFF8E8;color:#854F0B;}
+.painel-acoes{display:flex;gap:4px;}
+.btn-acao{padding:3px 8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;border-radius:3px;border:1px solid var(--cinza-borda);background:#fff;cursor:pointer;color:var(--cinza-med);}
+.btn-acao.upgrade{background:var(--dourado-claro);border-color:var(--dourado-claro);color:var(--azul);}
+.footer{background:var(--azul);padding:36px 0 16px;border-top:4px solid var(--dourado);}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 20px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:28px;}
+.footer-logo-wrap{margin-bottom:11px;}
+.footer-descricao{font-family:'Source Serif 4',serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,.55);font-style:italic;margin-bottom:16px;}
+.footer-social{display:flex;gap:8px;}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid rgba(255,255,255,.2);border-radius:3px;font-size:14px;transition:all .2s;}
+.footer-social a:hover{border-color:var(--dourado);}
+.footer-col h4{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:8px;margin-bottom:12px;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{padding:4px 0;font-family:'DM Sans',sans-serif;font-size:13px;}
+.footer-col ul li a{color:rgba(255,255,255,.55);cursor:pointer;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--dourado-claro);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.footer-bottom p{font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,.35);}
+.footer-bottom span{color:var(--dourado-claro);}
+@media(max-width:960px){
+.cls-secao-grid{grid-template-columns:repeat(2,1fr);}.destaque-grid{grid-template-columns:1fr;}.destaque-img{height:230px;}.noticias-grid{grid-template-columns:repeat(2,1fr);}.layout-sidebar{grid-template-columns:1fr;}.sidebar{display:none;}.footer-grid{grid-template-columns:1fr 1fr;}.nav-busca{display:none;}.hamburger{display:flex;}.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#fff;z-index:300;border-bottom:2px solid var(--cinza-borda);}.nav-links.aberto{display:flex;}.nav-links li a{padding:11px 18px;border-left:3px solid transparent;}.nav-links li a:hover{border-left-color:var(--dourado-claro);}.nav{position:relative;}.anuncio-layout{grid-template-columns:1fr;}.card-anunciante{position:static;}.masonry-grid{columns:2 200px;}}
+@media(max-width:600px){
+.cls-secao-grid{grid-template-columns:1fr;}.noticias-grid{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.noticia-lista-item{grid-template-columns:1fr;}.noticia-lista-img{width:100%;height:140px;}.topbar-slogan{display:none;}.masonry-grid{columns:1;}.form-row{grid-template-columns:1fr;}.planos-grid{grid-template-columns:1fr;}}
+
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+  .header-menu-btn{display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--azul);letter-spacing:1px;text-transform:uppercase;border:none;background:none;padding:6px 0;}
+  .header-menu-btn svg{width:20px;height:20px;}
+  .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:900;opacity:0;visibility:hidden;transition:all .3s;}
+  .sidebar-overlay.aberta{opacity:1;visibility:visible;}
+  .sidebar-nav{position:fixed;top:0;left:0;width:300px;max-width:85vw;height:100vh;background:#fff;z-index:901;transform:translateX(-100%);transition:transform .3s ease;overflow-y:auto;display:flex;flex-direction:column;}
+  .sidebar-nav.aberta{transform:translateX(0);}
+  .sidebar-nav-topo{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e0e0e0;}
+  .sidebar-nav-logo{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--azul);letter-spacing:-1px;}
+  .sidebar-nav-fechar{background:none;border:none;cursor:pointer;font-size:22px;color:#333;line-height:1;padding:4px;}
+  .sidebar-nav-lista{list-style:none;flex:1;}
+  .sidebar-nav-lista li{border-bottom:1px solid #efefef;}
+  .sidebar-nav-lista li a{display:block;padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#1C1C1C;letter-spacing:1.5px;text-transform:uppercase;transition:background .15s,color .15s;cursor:pointer;}
+  .sidebar-nav-lista li a:hover{background:var(--cinza-claro);color:var(--azul);}
+  .sidebar-nav-lista li.sidebar-secao{padding:10px 20px 4px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;color:#aaa;letter-spacing:2px;text-transform:uppercase;border-bottom:none;}
+
+
+  .cls-secao-titulo{margin:32px 0 12px;padding-bottom:10px;border-bottom:2px solid #1C1C1C;}
+  .cls-secao-titulo span{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--azul);}
+  .cls-secao-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;}
+  @media(max-width:960px){.cls-secao-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.cls-secao-grid{grid-template-columns:1fr;}}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-data" id="data-hoje"></span>
+    <span class="topbar-slogan">Você fica sabendo primeiro</span>
+  </div>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <button class="header-menu-btn" onclick="abrirSidebar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+      MENU
+    </button>
+    <svg onclick="nav('home')" style="cursor:pointer;" width="476" height="112" viewBox="0 0 580 130" xmlns="http://www.w3.org/2000/svg">
+      <path d="M57 42 Q37 65 57 88" fill="none" stroke="#F5A623" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M45 32 Q19 65 45 98" fill="none" stroke="#F5A623" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+      <path d="M33 22 Q1 65 33 108" fill="none" stroke="#F5A623" stroke-width="3" stroke-linecap="round" opacity=".32"/>
+      <circle cx="75" cy="65" r="21" fill="#F5A623"/>
+      <text x="108" y="88" font-family="Georgia, serif" font-size="64" font-weight="700" fill="#091F3D">informou</text>
+    </svg>
+    <div style="width:80px;"></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <ul class="nav-links" id="navLinks">
+      <li><a onclick="nav('home')" id="nav-home">Home</a></li>
+      <li><a onclick="nav('cidade')" id="nav-cidade">Cidade</a></li>
+      <li><a onclick="nav('politica')" id="nav-politica">Política</a></li>
+      <li><a onclick="nav('economia')" id="nav-economia">Economia</a></li>
+      <li><a onclick="nav('saude')" id="nav-saude">Saúde</a></li>
+      <li><a onclick="nav('esportes')" id="nav-esportes">Esportes</a></li>
+      <li><a onclick="nav('tecnologia')" id="nav-tecnologia">Tecnologia</a></li>
+      <li><a onclick="nav('classificados')" id="nav-classificados">Classificados</a></li>
+    </ul>
+    <div class="nav-busca">
+      <input type="text" placeholder="Buscar notícias...">
+      <button>Buscar</button>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+
+<!-- HOME -->
+<div class="pagina ativa" id="pg-home">
+<div class="breaking">
+  <div class="breaking-inner">
+    <span class="breaking-tag">⚡ Urgente</span>
+    <div class="breaking-ticker-wrap">
+      <div class="breaking-ticker">
+        <span class="breaking-ticker-item">Câmara Municipal aprova novo orçamento para infraestrutura — obras devem começar em 60 dias</span>
+        <span class="breaking-ticker-item">Prefeito assina decreto de emergência hídrica para o município</span>
+        <span class="breaking-ticker-item">Inscrições abertas para concurso público com 45 vagas em diversas áreas</span>
+        <span class="breaking-ticker-item">Nova UPA será inaugurada no bairro Jardim das Flores ainda neste semestre</span>
+        <span class="breaking-ticker-item">Câmara Municipal aprova novo orçamento para infraestrutura — obras devem começar em 60 dias</span>
+        <span class="breaking-ticker-item">Prefeito assina decreto de emergência hídrica para o município</span>
+        <span class="breaking-ticker-item">Inscrições abertas para concurso público com 45 vagas em diversas áreas</span>
+        <span class="breaking-ticker-item">Nova UPA será inaugurada no bairro Jardim das Flores ainda neste semestre</span>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="main">
+    <div class="destaque-grid">
+      <div class="destaque-principal" onclick="verNoticia('n1')">
+        <img class="destaque-img" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80" alt="">
+        <div class="destaque-overlay">
+          <span class="destaque-categoria">Cidade</span>
+          <h2 class="destaque-titulo">Prefeitura anuncia plano de R$ 12 milhões para revitalização do centro histórico</h2>
+          <p class="destaque-resumo">Projeto prevê reforma de calçadas, iluminação LED, nova praça e recuperação de prédios tombados.</p>
+        </div>
+      </div>
+      <div class="destaque-lateral">
+        <div class="destaque-lateral-item" onclick="verNoticia('n2')">
+          <span class="destaque-categoria">Economia</span>
+          <h3 class="destaque-titulo">Comércio local registra alta de 18% nas vendas no primeiro trimestre</h3>
+          <p class="destaque-resumo">Crescimento acima da média nacional.</p>
+        </div>
+        <div class="destaque-lateral-item" onclick="verNoticia('n3')">
+          <span class="destaque-categoria">Saúde</span>
+          <h3 class="destaque-titulo">UBS passa a oferecer atendimento em cardiologia duas vezes por semana</h3>
+          <p class="destaque-resumo">Serviço gratuito para moradores no SUS.</p>
+        </div>
+        <div class="destaque-lateral-item" onclick="verNoticia('n4')">
+          <span class="destaque-categoria">Política</span>
+          <h3 class="destaque-titulo">Câmara vota projeto que regulariza feiras livres no município</h3>
+          <p class="destaque-resumo">Proposta tem apoio de 11 dos 13 vereadores.</p>
+        </div>
+      </div>
+    </div>
+    <div class="layout-sidebar">
+      <div id="home-content"></div>
+      <aside class="sidebar">
+        <div class="sidebar-bloco">
+          <div class="sidebar-titulo">Mais lidas</div>
+          <div class="sidebar-item" onclick="verNoticia('n1')"><span class="sidebar-num">01</span><span class="sidebar-item-titulo">Prefeitura anuncia plano de R$ 12 milhões</span></div>
+          <div class="sidebar-item" onclick="verNoticia('n2')"><span class="sidebar-num">02</span><span class="sidebar-item-titulo">Comércio local registra alta de 18%</span></div>
+          <div class="sidebar-item" onclick="verNoticia('ne1')"><span class="sidebar-num">03</span><span class="sidebar-item-titulo">Time local vence campeonato regional</span></div>
+          <div class="sidebar-item" onclick="verNoticia('nt1')"><span class="sidebar-num">04</span><span class="sidebar-item-titulo">Prefeitura lança app de serviços públicos</span></div>
+          <div class="sidebar-item" onclick="verNoticia('n5')"><span class="sidebar-num">05</span><span class="sidebar-item-titulo">Nova linha de ônibus ligará bairros ao centro</span></div>
+        </div>
+        <div class="sidebar-bloco">
+          <div class="sidebar-titulo">Newsletter</div>
+          <div class="newsletter-form">
+            <p>Receba as principais notícias do dia no seu e-mail, toda manhã.</p>
+            <input type="email" placeholder="seu@email.com.br">
+            <button>Assinar gratuitamente</button>
+          </div>
+        </div>
+        <div class="sidebar-bloco">
+          <div class="sidebar-titulo">Canal no WhatsApp</div>
+          <div class="newsletter-form">
+            <p>Siga o canal oficial do Informou em tempo real.</p>
+            <button style="background:#25D366;">📲 Seguir no WhatsApp</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIA -->
+<div class="pagina" id="pg-categoria">
+  <div class="categoria-hero">
+    <div class="categoria-hero-inner">
+      <h1 id="cat-titulo">Categoria</h1>
+      <p id="cat-subtitulo">Notícias desta editoria</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="layout-sidebar">
+      <div id="lista-categoria"></div>
+      <aside class="sidebar">
+        <div class="sidebar-bloco">
+          <div class="sidebar-titulo">Mais lidas</div>
+          <div class="sidebar-item" onclick="verNoticia('n1')"><span class="sidebar-num">01</span><span class="sidebar-item-titulo">Prefeitura anuncia plano de R$ 12 milhões</span></div>
+          <div class="sidebar-item" onclick="verNoticia('ne1')"><span class="sidebar-num">02</span><span class="sidebar-item-titulo">Time local vence campeonato regional</span></div>
+          <div class="sidebar-item" onclick="verNoticia('nt1')"><span class="sidebar-num">03</span><span class="sidebar-item-titulo">Prefeitura lança app de serviços públicos</span></div>
+        </div>
+        <div class="sidebar-bloco">
+          <div class="sidebar-titulo">Newsletter</div>
+          <div class="newsletter-form">
+            <p>Receba notícias no seu e-mail toda manhã.</p>
+            <input type="email" placeholder="seu@email.com.br">
+            <button>Assinar</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- NOTÍCIA -->
+<div class="pagina" id="pg-noticia">
+  <div class="noticia-full">
+    <div class="noticia-full-breadcrumb">
+      <span onclick="nav('home')">Home</span> ›
+      <span id="noticia-cat-link">Categoria</span> ›
+      <span id="noticia-titulo-bc" style="color:var(--cinza-med);"></span>
+    </div>
+    <span class="noticia-full-categoria" id="noticia-categoria"></span>
+    <h1 class="noticia-full-titulo" id="noticia-titulo"></h1>
+    <p class="noticia-full-subtitulo" id="noticia-subtitulo"></p>
+    <div class="noticia-full-meta">
+      <span>Por <strong>Redação Informou</strong></span>
+      <span id="noticia-data"></span>
+      <span>· 4 min de leitura</span>
+    </div>
+    <img class="noticia-full-img" id="noticia-img" src="" alt="">
+    <p class="noticia-full-legenda">Imagem ilustrativa · Crédito: Banco de imagens</p>
+    <div class="noticia-full-corpo" id="noticia-corpo"></div>
+    <div class="noticia-compartilhar">
+      <span>Compartilhar</span>
+      <button class="btn-share wpp">📲 WhatsApp</button>
+      <button class="btn-share fb">Facebook</button>
+      <button class="btn-share tw">Twitter</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLASSIFICADOS - LISTAGEM -->
+<div class="pagina" id="pg-classificados">
+  <div class="cls-hero">
+    <div class="cls-hero-inner">
+      <div>
+        <h1>Classificados Informou</h1>
+        <p>Compre, venda, alugue e contrate na sua cidade</p>
+      </div>
+      <button class="btn-anunciar" onclick="nav('cls-form')">+ Anunciar grátis</button>
+    </div>
+  </div>
+  <div class="cats-bar">
+    <div class="cats-inner">
+      <button class="cat-btn catativo" onclick="filtrarCat('todos',this)">🏷️ Todos</button>
+      <button class="cat-btn" onclick="filtrarCat('imoveis',this)">🏠 Imóveis</button>
+      <button class="cat-btn" onclick="filtrarCat('veiculos',this)">🚗 Veículos</button>
+      <button class="cat-btn" onclick="filtrarCat('empregos',this)">💼 Empregos</button>
+      <button class="cat-btn" onclick="filtrarCat('servicos',this)">🔧 Serviços</button>
+      <button class="cat-btn" onclick="filtrarCat('compravenda',this)">🛍️ Compra e venda</button>
+      <button class="cat-btn" onclick="filtrarCat('animais',this)">🐾 Animais</button>
+      <button class="cat-btn" onclick="filtrarCat('agro',this)">🌱 Agro</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="cls-filtros">
+      <input type="text" id="cls-busca" placeholder="Buscar anúncios..." oninput="renderCls()">
+      <select id="cls-ordem" onchange="renderCls()">
+        <option value="recente">Mais recentes</option>
+        <option value="preco-asc">Menor preço</option>
+        <option value="preco-desc">Maior preço</option>
+      </select>
+      <button class="btn-buscar" onclick="renderCls()">Buscar</button>
+      <button class="btn-buscar sec" onclick="nav('cls-painel')">Meus anúncios</button>
+    </div>
+    <p class="resultado-count" id="cls-count"></p>
+    <div class="masonry-grid" id="cls-grid"></div>
+  </div>
+</div>
+
+<!-- ANÚNCIO COMPLETO -->
+<div class="pagina" id="pg-cls-anuncio">
+  <div class="anuncio-full">
+    <div class="anuncio-breadcrumb">
+      <span onclick="nav('classificados')">Classificados</span> ›
+      <span id="an-cat-link" onclick="nav('classificados')">Categoria</span> ›
+      <span id="an-titulo-bc" style="color:var(--cinza-med);"></span>
+    </div>
+    <div id="an-destaque-badge" style="display:none;" class="selo-destaque-full">⭐ Anúncio em destaque</div>
+    <div class="anuncio-layout">
+      <div>
+        <div id="an-foto-wrap"></div>
+        <h1 class="anuncio-titulo" id="an-titulo"></h1>
+        <p class="anuncio-preco" id="an-preco"></p>
+        <p class="anuncio-desc" id="an-desc"></p>
+        <div class="anuncio-detalhes" id="an-detalhes"></div>
+      </div>
+      <div>
+        <div class="card-anunciante">
+          <h3>Fale com o anunciante</h3>
+          <p class="anunciante-nome" id="an-nome"></p>
+          <p class="anunciante-desde" id="an-desde"></p>
+          <button class="btn-wpp-grande" id="an-wpp-btn">📲 Chamar no WhatsApp</button>
+          <p class="aviso-anuncio">Desconfie de pagamentos antecipados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁRIO -->
+<div class="pagina" id="pg-cls-form">
+  <div class="form-cls-hero">
+    <div class="form-cls-hero-inner">
+      <h1>Anunciar no Informou</h1>
+      <p>Plano gratuito publicado imediatamente. Destaque por R$ 19,90.</p>
+    </div>
+  </div>
+  <div class="form-wrap">
+    <div class="sucesso-box" id="cls-sucesso">
+      <h3>✅ Anúncio publicado!</h3>
+      <p>Já está visível na listagem.</p>
+      <br>
+      <button class="btn-submit" style="max-width:240px;margin:0 auto;" onclick="nav('classificados')">Ver listagem</button>
+    </div>
+    <form id="cls-form" onsubmit="submeterCls(event)">
+      <div class="form-step">
+        <div class="form-step-titulo"><div class="step-num">1</div>Seus dados</div>
+        <div class="form-row">
+          <div class="form-grupo"><label>Nome completo</label><input type="text" placeholder="Seu nome" required></div>
+          <div class="form-grupo"><label>WhatsApp</label><input type="text" placeholder="(15) 9 0000-0000" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-grupo"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
+          <div class="form-grupo"><label>Cidade</label><input type="text" value="Salto de Pirapora" required></div>
+        </div>
+      </div>
+      <div class="form-step">
+        <div class="form-step-titulo"><div class="step-num">2</div>Detalhes do anúncio</div>
+        <div class="form-row">
+          <div class="form-grupo"><label>Categoria</label>
+            <select required>
+              <option value="">Selecione...</option>
+              <option>🏠 Imóveis</option><option>🚗 Veículos</option>
+              <option>💼 Empregos</option><option>🔧 Serviços</option>
+              <option>🛍️ Compra e venda</option><option>🐾 Animais</option><option>🌱 Agro</option>
+            </select>
+          </div>
+          <div class="form-grupo"><label>Preço</label><input type="text" placeholder="Ex: 1.500,00"></div>
+        </div>
+        <div class="form-row full"><div class="form-grupo"><label>Título</label><input type="text" placeholder="Ex: Casa com 3 quartos no centro" required></div></div>
+        <div class="form-row full"><div class="form-grupo"><label>Descrição</label><textarea placeholder="Descreva seu anúncio..." required></textarea></div></div>
+      </div>
+      <div class="form-step">
+        <div class="form-step-titulo"><div class="step-num">3</div>Escolha o plano</div>
+        <div class="planos-grid">
+          <div class="plano-opcao sel" id="plano-gratis" onclick="selPlano('gratis')">
+            <input type="radio" name="plano" value="gratis" checked>
+            <div class="plano-nome">Gratuito</div>
+            <div class="plano-preco">R$ 0</div>
+            <div class="plano-item ok">✅ Publicação imediata</div>
+            <div class="plano-item ok">✅ WhatsApp</div>
+            <div class="plano-item ok">✅ Válido 30 dias</div>
+            <div class="plano-item ok">✅ Até 3 anúncios</div>
+            <div class="plano-item no">❌ Sem foto</div>
+            <div class="plano-item no">❌ Sem destaque</div>
+          </div>
+          <div class="plano-opcao" id="plano-destaque" onclick="selPlano('destaque')">
+            <input type="radio" name="plano" value="destaque">
+            <div class="plano-nome">⭐ Destaque</div>
+            <div class="plano-preco">R$ 19,90<span style="font-size:11px;font-weight:400;color:var(--cinza-med);">/anúncio</span></div>
+            <div class="plano-item ok">✅ Até 5 fotos</div>
+            <div class="plano-item ok">✅ WhatsApp</div>
+            <div class="plano-item ok">✅ Válido 60 dias</div>
+            <div class="plano-item ok">✅ Ilimitados</div>
+            <div class="plano-item ok">✅ Topo da lista</div>
+            <div class="plano-item ok">✅ Borda dourada</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-step">
+        <div class="form-step-titulo"><div class="step-num">4</div>Fotos <span id="foto-label" style="font-size:11px;font-weight:400;color:var(--cinza-med);margin-left:7px;">disponível no plano Destaque</span></div>
+        <div class="upload-area" id="upload-area">
+          <div style="font-size:26px;margin-bottom:6px;">📷</div>
+          <p id="upload-txt">Fotos disponíveis apenas no plano Destaque</p>
+          <p style="font-size:12px;color:#bbb;margin-top:3px;" id="upload-sub">Faça upgrade para adicionar até 5 fotos</p>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit">Publicar anúncio</button>
+    </form>
+  </div>
+</div>
+
+<!-- PAINEL -->
+<div class="pagina" id="pg-cls-painel">
+  <div class="painel-hero">
+    <div class="painel-hero-inner">
+      <div><h1>Meus Anúncios</h1><p>Gerencie seus classificados no Informou</p></div>
+      <button class="btn-anunciar" onclick="nav('cls-form')">+ Novo anúncio</button>
+    </div>
+  </div>
+  <div class="painel-main">
+    <div class="painel-stats">
+      <div class="stat-card"><div class="stat-val" style="color:var(--azul);">4</div><div class="stat-lbl">Ativos</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--dourado);">1</div><div class="stat-lbl">Em destaque</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--cinza-med);">2</div><div class="stat-lbl">Expirados</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--verde);">247</div><div class="stat-lbl">Visualizações</div></div>
+    </div>
+    <p class="painel-titulo-sec">Todos os anúncios</p>
+    <div style="overflow-x:auto;">
+      <table class="painel-tabela">
+        <thead><tr><th>Anúncio</th><th>Categoria</th><th>Plano</th><th>Expira</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Casa 3 quartos no centro</strong><br><span style="font-size:11px;color:#999;">R$ 280.000</span></td><td>🏠 Imóveis</td><td><span class="status-badge status-destaque">⭐ Destaque</span></td><td>15/07/2026</td><td><span class="status-badge status-ativo">● Ativo</span></td><td><div class="painel-acoes"><button class="btn-acao" onclick="verAnuncio('im01')">Ver</button><button class="btn-acao">Editar</button><button class="btn-acao">Renovar</button></div></td></tr>
+          <tr><td><strong>Fiat Uno 2018</strong><br><span style="font-size:11px;color:#999;">R$ 42.000</span></td><td>🚗 Veículos</td><td><span class="status-badge" style="background:var(--cinza-claro);color:var(--cinza-med);">Gratuito</span></td><td>20/06/2026</td><td><span class="status-badge status-ativo">● Ativo</span></td><td><div class="painel-acoes"><button class="btn-acao" onclick="verAnuncio('ve01')">Ver</button><button class="btn-acao">Editar</button><button class="btn-acao upgrade">Destacar</button></div></td></tr>
+          <tr><td><strong>Pintura residencial</strong><br><span style="font-size:11px;color:#999;">Consulte</span></td><td>🔧 Serviços</td><td><span class="status-badge" style="background:var(--cinza-claro);color:var(--cinza-med);">Gratuito</span></td><td>28/06/2026</td><td><span class="status-badge status-ativo">● Ativo</span></td><td><div class="painel-acoes"><button class="btn-acao">Ver</button><button class="btn-acao upgrade">Destacar</button></div></td></tr>
+          <tr><td><strong>Sítio 5 alqueires</strong><br><span style="font-size:11px;color:#999;">R$ 380.000</span></td><td>🌱 Agro</td><td><span class="status-badge" style="background:var(--cinza-claro);color:var(--cinza-med);">Gratuito</span></td><td>15/04/2026</td><td><span class="status-badge status-expirado">● Expirado</span></td><td><div class="painel-acoes"><button class="btn-acao">Ver</button><button class="btn-acao">Renovar</button><button class="btn-acao upgrade">Destacar</button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="fecharSidebar()"></div>
+<nav class="sidebar-nav" id="sidebar-nav">
+  <div class="sidebar-nav-topo">
+    <span class="sidebar-nav-logo">informou</span>
+    <button class="sidebar-nav-fechar" onclick="fecharSidebar()">✕</button>
+  </div>
+  <ul class="sidebar-nav-lista">
+    <li class="sidebar-secao">Editorias</li>
+    <li><a onclick="nav('home');fecharSidebar()">Home</a></li>
+    <li><a onclick="nav('cidade');fecharSidebar()">Cidade</a></li>
+    <li><a onclick="nav('politica');fecharSidebar()">Política</a></li>
+    <li><a onclick="nav('economia');fecharSidebar()">Economia</a></li>
+    <li><a onclick="nav('saude');fecharSidebar()">Saúde</a></li>
+    <li><a onclick="nav('esportes');fecharSidebar()">Esportes</a></li>
+    <li><a onclick="nav('tecnologia');fecharSidebar()">Tecnologia</a></li>
+    <li class="sidebar-secao">Mais editorias</li>
+    <li><a onclick="nav('home');fecharSidebar()">Mundo</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Ambiente</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Educação</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Turismo</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Ciência</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Moda</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Carros</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Carreira</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Agronegócio</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Tempo</a></li>
+    <li><a onclick="nav('home');fecharSidebar()">Gastronomia</a></li>
+    <li class="sidebar-secao">Serviços</li>
+    <li><a onclick="nav('classificados');fecharSidebar()">Classificados</a></li>
+  </ul>
+</nav>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-wrap"><svg width="180" height="46" viewBox="0 0 520 118" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="36" cy="59" r="20" fill="#F5A623"/>
+  <path d="M8 59 Q22 32 36 59" fill="none" stroke="#F5A623" stroke-width="6.5" stroke-linecap="round"/>
+  <path d="M1 59 Q15 25 36 59" fill="none" stroke="#F5A623" stroke-width="4.5" stroke-linecap="round" opacity=".65"/>
+  <path d="M-6 59 Q8 17 36 59" fill="none" stroke="#F5A623" stroke-width="3" stroke-linecap="round" opacity=".32"/>
+  <text x="64" y="79" font-family="Georgia, serif" font-size="56" font-weight="700" fill="#FFFFFF">informou</text>
+</svg></div>
+        <p class="footer-descricao">"Jornalismo local de qualidade para quem vive a cidade todos os dias."</p>
+        <div class="footer-social"><a href="#">📘</a><a href="#">📸</a><a href="#">💬</a><a href="#">▶️</a></div>
+      </div>
+      <div class="footer-col"><h4>Editorias</h4><ul>
+        <li><a onclick="nav('cidade')">Cidade</a></li>
+        <li><a onclick="nav('politica')">Política</a></li>
+        <li><a onclick="nav('economia')">Economia</a></li>
+        <li><a onclick="nav('saude')">Saúde</a></li>
+        <li><a onclick="nav('esportes')">Esportes</a></li>
+        <li><a onclick="nav('tecnologia')">Tecnologia</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Portal</h4><ul>
+        <li><a onclick="nav('classificados')">Classificados</a></li>
+        <li><a href="#">Sobre nós</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Anuncie</a></li>
+        <li><a href="#">Privacidade</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contato</h4><ul>
+        <li><a href="#">redacao@informou.com.br</a></li>
+        <li><a href="#">comercial@informou.com.br</a></li>
+        <li><a href="#">WhatsApp oficial</a></li>
+        <li><a href="#">Salto de Pirapora — SP</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <span>Informou.com.br</span> · Todos os direitos reservados</p>
+      <p>Desenvolvido com ♥ para o interior paulista</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+var CATS = ['cidade','politica','economia','saude','esportes','tecnologia'];
+var catAtualCls = 'todos';
+
+var noticias = {
+  n1:{cat:'cidade',catLabel:'Cidade',titulo:'Prefeitura anuncia plano de R$ 12 milhões para revitalização do centro histórico',sub:'Projeto prevê reforma de calçadas, iluminação LED, nova praça e recuperação de prédios tombados.',data:'Hoje, 07h30',img:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',corpo:'<p>A administração municipal apresentou nesta semana um ambicioso projeto de revitalização do centro histórico, com investimento de R$ 12 milhões.</p><blockquote>"Esse é o maior investimento em infraestrutura urbana dos últimos 20 anos."</blockquote><p>As obras serão realizadas em etapas. A primeira fase começa em julho com a renovação da iluminação pública.</p>'},
+  n2:{cat:'economia',catLabel:'Economia',titulo:'Comércio local registra alta de 18% nas vendas no primeiro trimestre',sub:'Dados mostram crescimento acima da média nacional.',data:'Hoje, 08h15',img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',corpo:'<p>O comércio varejista encerrou o primeiro trimestre de 2026 com crescimento de 18%, superando a média nacional de 7,3%.</p><blockquote>"Estamos vivendo o melhor momento dos últimos cinco anos."</blockquote>'},
+  n3:{cat:'saude',catLabel:'Saúde',titulo:'UBS passa a oferecer atendimento em cardiologia duas vezes por semana',sub:'Serviço gratuito para moradores cadastrados no SUS.',data:'Hoje, 09h00',img:'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80',corpo:'<p>A partir da próxima semana, a UBS do bairro Centro passa a contar com atendimento em cardiologia às terças e quintas, das 8h às 12h.</p>'},
+  n4:{cat:'politica',catLabel:'Política',titulo:'Câmara vota projeto que regulariza feiras livres no município',sub:'Proposta tem apoio de 11 dos 13 vereadores.',data:'Ontem, 17h45',img:'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800&q=80',corpo:'<p>A Câmara vota o projeto de lei que regulamenta as feiras livres.</p><blockquote>"Regularizar não é prejudicar. É dar segurança ao feirante."</blockquote>'},
+  n5:{cat:'cidade',catLabel:'Cidade',titulo:'Nova linha de ônibus ligará bairros ao centro em menos de 20 minutos',sub:'Operação começa em agosto.',data:'Hoje, 06h00',img:'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',corpo:'<p>A Secretaria de Transportes apresentou o traçado definitivo da nova linha que conectará bairros periféricos ao centro.</p>'},
+  n6:{cat:'saude',catLabel:'Saúde',titulo:'Campanha de vacinação contra gripe começa na segunda-feira',sub:'Meta é vacinar 90% da população-alvo.',data:'Hoje, 10h30',img:'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=800&q=80',corpo:'<p>A campanha de vacinação contra a gripe começa na segunda-feira em todos os postos de saúde da cidade.</p>'},
+  n7:{cat:'economia',catLabel:'Economia',titulo:'Micro empresas poderão acessar crédito com juros reduzidos a partir de junho',sub:'Programa em parceria com Sebrae e banco regional.',data:'Hoje, 11h00',img:'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80',corpo:'<p>Micro empresas poderão acessar crédito com juros de 0,99% ao mês a partir de junho. Limite de R$ 50 mil.</p>'},
+  n8:{cat:'politica',catLabel:'Política',titulo:'Prefeito anuncia secretário de obras após três meses de cargo vago',sub:'Engenheiro com 20 anos de experiência assume a pasta.',data:'Ontem, 15h00',img:'https://images.unsplash.com/photo-1555848962-6e79363ec58f?w=800&q=80',corpo:'<p>O prefeito anunciou o novo secretário de obras, engenheiro com 20 anos de experiência em gestão pública.</p>'},
+  n9:{cat:'politica',catLabel:'Política',titulo:'Câmara aprova criação do conselho municipal de cultura',sub:'Eleições para representantes em agosto.',data:'Ontem, 18h30',img:'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&q=80',corpo:'<p>Por 13 votos a zero, a Câmara aprovou o Conselho Municipal de Cultura.</p>'},
+  n10:{cat:'politica',catLabel:'Política',titulo:'Audiência sobre plano diretor reúne 400 pessoas no ginásio municipal',sub:'67 propostas encaminhadas ao grupo técnico.',data:'2 dias atrás',img:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80',corpo:'<p>A audiência pública sobre o plano diretor reuniu 400 pessoas e resultou em 67 propostas.</p>'},
+  ne1:{cat:'esportes',catLabel:'Esportes',titulo:'Time local vence campeonato regional nos pênaltis por 4 a 3',sub:'Equipe garantiu vaga na próxima fase.',data:'Hoje',img:'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80',corpo:'<p>Em jogo emocionante no estádio municipal, o time local venceu nos pênaltis por 4 a 3.</p><blockquote>"Foi a conquista mais importante dessa geração."</blockquote>'},
+  ne2:{cat:'esportes',catLabel:'Esportes',titulo:'Prefeitura reforma quadras esportivas em cinco bairros',sub:'Nova iluminação, pintura e troca de redes.',data:'Ontem',img:'https://images.unsplash.com/photo-1519766304817-4f37bda74a26?w=800&q=80',corpo:'<p>A Secretaria de Esportes iniciou a reforma de quadras em cinco bairros, com investimento de R$ 420 mil.</p>'},
+  ne3:{cat:'esportes',catLabel:'Esportes',titulo:'Atleta local conquista ouro nos Jogos Regionais de natação',sub:'Jovem de 17 anos quebrou o recorde da categoria.',data:'2 dias atrás',img:'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&q=80',corpo:'<p>A jovem nadadora de 17 anos conquistou ouro nos Jogos Regionais, quebrando o recorde nos 200m livre.</p>'},
+  nt1:{cat:'tecnologia',catLabel:'Tecnologia',titulo:'Prefeitura lança app para agendamento de serviços públicos',sub:'Android e iOS, 2 mil downloads.',data:'Hoje',img:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',corpo:'<p>A prefeitura lançou o aplicativo InformaFácil para agendamento de serviços públicos pelo celular.</p>'},
+  nt2:{cat:'tecnologia',catLabel:'Tecnologia',titulo:'Escolas municipais recebem laboratórios com 30 computadores',sub:'Beneficia 4 mil alunos da rede pública.',data:'Ontem',img:'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80',corpo:'<p>Quatro escolas da rede municipal receberam novos laboratórios de informática com 30 computadores cada.</p>'},
+  nt3:{cat:'tecnologia',catLabel:'Tecnologia',titulo:'Internet gratuita chegará a 12 praças e parques públicos',sub:'Parceria com operadora regional.',data:'2 dias atrás',img:'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=800&q=80',corpo:'<p>Doze pontos de Wi-Fi gratuito serão instalados em praças e parques até o final do ano.</p>'},
+  nc1:{cat:'cidade',catLabel:'Cidade',titulo:'Parque municipal receberá reforma com playground e academia ao ar livre',sub:'R$ 800 mil de emenda parlamentar.',data:'Ontem',img:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80',corpo:'<p>O parque municipal passará por reforma com playground, academia ao ar livre e nova iluminação LED.</p>'},
+  nec1:{cat:'economia',catLabel:'Economia',titulo:'Nova indústria confirma instalação e promete 300 empregos',sub:'Construção começa em agosto.',data:'Ontem',img:'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80',corpo:'<p>Uma empresa do setor de embalagens confirmou instalação no distrito industrial, prometendo 300 empregos diretos.</p>'},
+  ns1:{cat:'saude',catLabel:'Saúde',titulo:'Hospital recebe novo equipamento de tomografia',sub:'Reduz espera por diagnóstico em 40%.',data:'Ontem',img:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',corpo:'<p>O hospital municipal recebeu um moderno aparelho de tomografia adquirido com recursos federais.</p>'}
+};
+
+var catNoticias = {
+  cidade:['n1','n5','nc1'],
+  politica:['n4','n8','n9'],
+  economia:['n2','n7','nec1'],
+  saude:['n3','n6','ns1'],
+  esportes:['ne1','ne2','ne3'],
+  tecnologia:['nt1','nt2','nt3']
+};
+
+var catInfo = {
+  cidade:{nome:'Cidade',sub:'Cobertura completa sobre o que acontece na sua cidade'},
+  politica:{nome:'Política',sub:'Acompanhe a Câmara, a Prefeitura e as decisões que afetam sua vida'},
+  economia:{nome:'Economia',sub:'Negócios, emprego e desenvolvimento regional'},
+  saude:{nome:'Saúde',sub:'Saúde pública, campanhas e dicas para o seu bem-estar'},
+  esportes:{nome:'Esportes',sub:'Resultados, competições e histórias do esporte local'},
+  tecnologia:{nome:'Tecnologia',sub:'Inovação, apps e o mundo digital chegando ao interior'}
+};
+
+var anuncios = [
+  {id:'im01',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Casa com 3 quartos no centro histórico',preco:'R$ 280.000',precoNum:280000,desc:'Casa com 3 quartos, suíte, sala ampla, cozinha planejada, garagem 2 carros e quintal.',local:'Centro',nome:'João Carlos Silva',zap:'15991234567',tempo:'Há 1 dia',destaque:true,foto:'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80',detalhes:[{l:'Área',v:'120m²'},{l:'Quartos',v:'3'},{l:'Vagas',v:'2'}]},
+  {id:'im02',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Apartamento 2 quartos — Jd. das Flores',preco:'R$ 165.000',precoNum:165000,desc:'Apartamento 3º andar, 2 quartos, portaria 24h.',local:'Jardim das Flores',nome:'Maria Fernanda',zap:'15992345678',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'68m²'},{l:'Quartos',v:'2'}]},
+  {id:'im03',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Terreno 500m² — escriturado — Jd. Europa',preco:'R$ 95.000',precoNum:95000,desc:'Terreno plano, murado, água e luz. Financiável.',local:'Jardim Europa',nome:'Imóveis Centro',zap:'15993456789',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'500m²'},{l:'Frente',v:'15m'}]},
+  {id:'im04',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Chácara 2 alqueires com casa e piscina',preco:'R$ 480.000',precoNum:480000,desc:'Casa 4 quartos, piscina, pomar. Água de mina, acesso asfaltado.',local:'Zona rural',nome:'Rural Imóveis',zap:'15994567890',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',detalhes:[{l:'Área',v:'2 alq.'},{l:'Casa',v:'4 quartos'}]},
+  {id:'im05',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Sala comercial 40m² — centro',preco:'R$ 1.800/mês',precoNum:1800,desc:'Sala comercial no térreo, banheiro próprio, ar-condicionado.',local:'Centro',nome:'Locações Premium',zap:'15995678901',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'40m²'},{l:'Tipo',v:'Comercial'}]},
+  {id:'im06',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Casa 2 quartos — aluguel — Vila Nova',preco:'R$ 1.200/mês',precoNum:1200,desc:'Casa 2 quartos, quintal, bairro tranquilo.',local:'Vila Nova',nome:'Claudia Imóveis',zap:'15996789012',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Quartos',v:'2'},{l:'IPTU',v:'Incluso'}]},
+  {id:'im07',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Sobrado 4 quartos — condomínio fechado',preco:'R$ 620.000',precoNum:620000,desc:'4 quartos, 2 suítes, home office, área gourmet e piscina.',local:'Res. Bela Vista',nome:'Premium Imóveis',zap:'15997890123',tempo:'Há 5 dias',destaque:true,foto:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',detalhes:[{l:'Área',v:'220m²'},{l:'Quartos',v:'4 (2 suítes)'}]},
+  {id:'im08',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Galpão 800m² — distrito industrial',preco:'R$ 8.500/mês',precoNum:8500,desc:'Pé-direito 8m, 3 portões caminhão, escritório e vestiário.',local:'Distrito Industrial',nome:'Galpões SP',zap:'15998901234',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'800m²'},{l:'Pé-direito',v:'8m'}]},
+  {id:'im09',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Kitnet mobiliada — próxima à FATEC',preco:'R$ 750/mês',precoNum:750,desc:'Totalmente mobiliada, internet fibra, água inclusa.',local:'Centro',nome:'Locações Estudantis',zap:'15999012345',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Área',v:'25m²'},{l:'Internet',v:'Inclusa'}]},
+  {id:'im10',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Terreno comercial esquina — alto fluxo',preco:'R$ 320.000',precoNum:320000,desc:'800m², esquina em avenida de alto fluxo. Zoneamento comercial.',local:'Av. Brasil',nome:'Imóveis Estratégicos',zap:'15990123456',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',detalhes:[{l:'Área',v:'800m²'},{l:'Zoneamento',v:'Comercial'}]},
+  {id:'im11',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Casa de campo com lago — 1 alqueire',preco:'R$ 195.000',precoNum:195000,desc:'2 quartos, lago para pesca, pomar e energia solar.',local:'Zona rural',nome:'Roberto Agrícola',zap:'15991230000',tempo:'Há 6 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'1 alqueire'},{l:'Energia',v:'Solar'}]},
+  {id:'im12',cat:'imoveis',catLabel:'🏠 Imóveis',titulo:'Studio 42m² — prédio novo — 1 vaga',preco:'R$ 210.000',precoNum:210000,desc:'Studio em prédio de 2021, varanda, academia e portaria.',local:'Jd. Paulista',nome:'Construtora Horizonte',zap:'15992340000',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'42m²'},{l:'Vaga',v:'1'}]},
+  {id:'ve01',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Fiat Uno 2018 — completo, único dono',preco:'R$ 42.000',precoNum:42000,desc:'Único dono, revisões na concessionária. Ar, direção, vidros elétricos.',local:'Salto de Pirapora',nome:'Paulo Henrique',zap:'15993450000',tempo:'Há 1 dia',destaque:true,foto:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80',detalhes:[{l:'Ano',v:'2018'},{l:'KM',v:'48.000'}]},
+  {id:'ve02',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Honda CG 160 Start 2021 — revisada',preco:'R$ 11.500',precoNum:11500,desc:'Revisada, pneus novos, sem débitos.',local:'Vila Nova',nome:'Marcos Souza',zap:'15994560000',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2021'},{l:'KM',v:'18.000'}]},
+  {id:'ve03',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'VW Gol 2016 — GNV 5ª geração',preco:'R$ 38.000',precoNum:38000,desc:'Completo, GNV 5ª geração, revisado, laudo INMETRO.',local:'Centro',nome:'Carlos Motorista',zap:'15995670000',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2016'},{l:'KM',v:'72.000'}]},
+  {id:'ve04',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Toyota Hilux 2020 SRV diesel — impecável',preco:'R$ 195.000',precoNum:195000,desc:'SRV 4x4 diesel automática, cabine dupla, couro, multimídia.',local:'Salto de Pirapora',nome:'Fazenda Boa Vista',zap:'15996780000',tempo:'Hoje',destaque:true,foto:'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',detalhes:[{l:'Ano',v:'2020'},{l:'Tração',v:'4x4'}]},
+  {id:'ve05',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Bicicleta elétrica Caloi E-Vibe 2022',preco:'R$ 4.800',precoNum:4800,desc:'48V, autonomia 60km, freio a disco, 7 marchas.',local:'Jd. das Flores',nome:'Adriana Costa',zap:'15997890000',tempo:'Há 4 dias',destaque:false,foto:null,detalhes:[{l:'Autonomia',v:'60 km'},{l:'Marchas',v:'7'}]},
+  {id:'ve06',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Yamaha NMAX 160 ABS 2022 — única dona',preco:'R$ 16.900',precoNum:16900,desc:'ABS, painel digital, porta-malas 25L, 9.800km.',local:'Salto de Pirapora',nome:'Fernanda Lima',zap:'15998900000',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2022'},{l:'KM',v:'9.800'}]},
+  {id:'ve07',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Caminhão VW Delivery 2019 — baú refrigerado',preco:'R$ 185.000',precoNum:185000,desc:'Baú refrigerado 6m, revisado, laudo ok.',local:'Distrito Industrial',nome:'Transportes Irmãos',zap:'15999010000',tempo:'Há 5 dias',destaque:true,foto:'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80',detalhes:[{l:'Ano',v:'2019'},{l:'Baú',v:'6m refrigerado'}]},
+  {id:'ve08',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Chevrolet Onix LT 2020 — financio',preco:'R$ 68.000',precoNum:68000,desc:'Completo, câmera de ré, sensor de estacionamento.',local:'Salto de Pirapora',nome:'Auto Gonçalves',zap:'15990120000',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2020'},{l:'KM',v:'38.000'}]},
+  {id:'ve09',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Trator Massey Ferguson 275 4x4',preco:'R$ 95.000',precoNum:95000,desc:'Carregadeira frontal, cabine, A/C, pneus novos.',local:'Zona rural',nome:'Agro Máquinas',zap:'15991230001',tempo:'Há 6 dias',destaque:false,foto:null,detalhes:[{l:'Marca',v:'Massey Ferguson'},{l:'Cabine',v:'Com A/C'}]},
+  {id:'ve10',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Hyundai HB20 2019 — abaixo da FIPE',preco:'R$ 52.000',precoNum:52000,desc:'IPVA 2026 pago, único dono, laudo cautelar ok.',local:'Centro',nome:'Rogério Automóveis',zap:'15992340001',tempo:'Há 3 dias',destaque:true,foto:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80',detalhes:[{l:'Ano',v:'2019'},{l:'IPVA',v:'2026 pago'}]},
+  {id:'ve11',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Jetski Sea-Doo GTI 130 2020',preco:'R$ 48.000',precoNum:48000,desc:'130cv, capa e carretinha inclusos. Pouco uso.',local:'Salto de Pirapora',nome:'Lazer Náutico',zap:'15993450001',tempo:'Há 7 dias',destaque:false,foto:null,detalhes:[{l:'Potência',v:'130cv'},{l:'Ano',v:'2020'}]},
+  {id:'ve12',cat:'veiculos',catLabel:'🚗 Veículos',titulo:'Ford Ka 2015 SE 1.0 — muito novo',preco:'R$ 32.000',precoNum:32000,desc:'Flex, ar-condicionado, direção elétrica. Financio.',local:'Salto de Pirapora',nome:'Auto Popular',zap:'15994560001',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2015'},{l:'KM',v:'68.000'}]},
+  {id:'em01',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: auxiliar de produção — turno manhã',preco:'R$ 1.950/mês',precoNum:1950,desc:'Empresa alimentícia contrata. CLT, VA, VT.',local:'Distrito Industrial',nome:'RH Alimentos Sul',zap:'15995670001',tempo:'Hoje',destaque:true,foto:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',detalhes:[{l:'Regime',v:'CLT'},{l:'Benefícios',v:'VA+VT'}]},
+  {id:'em02',cat:'empregos',catLabel:'💼 Empregos',titulo:'Procuro emprego — técnico em elétrica',preco:'A combinar',precoNum:0,desc:'8 anos de experiência, NR10, CLT ou PJ.',local:'Salto de Pirapora',nome:'Roberto Mendes',zap:'15996780001',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Exp.',v:'8 anos'},{l:'NR10',v:'Sim'}]},
+  {id:'em03',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: motorista entregador — CNH AB',preco:'R$ 2.200/mês',precoNum:2200,desc:'Veículo da empresa, rota definida, comissão.',local:'Salto de Pirapora',nome:'Distribuidora Boa Vista',zap:'15997890001',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'CNH',v:'AB'},{l:'Regime',v:'CLT'}]},
+  {id:'em04',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: vendedora — loja de roupas',preco:'R$ 1.700 + comissão',precoNum:1700,desc:'Loja no centro, experiência em atendimento.',local:'Centro',nome:'Moda Feminina SP',zap:'15998900001',tempo:'Há 1 dia',destaque:true,foto:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',detalhes:[{l:'Regime',v:'CLT'},{l:'Comissão',v:'Sim'}]},
+  {id:'em05',cat:'empregos',catLabel:'💼 Empregos',titulo:'Procuro emprego — cozinheira experiente',preco:'A combinar',precoNum:0,desc:'12 anos de experiência, disponível imediato.',local:'Salto de Pirapora',nome:'Dona Maria',zap:'15999010001',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Exp.',v:'12 anos'},{l:'Disponível',v:'Imediato'}]},
+  {id:'em06',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: recepcionista — clínica médica',preco:'R$ 1.800/mês',precoNum:1800,desc:'Seg a Sáb, experiência em agenda e sistema.',local:'Centro',nome:'Clínica Saúde Total',zap:'15990120001',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Regime',v:'CLT'},{l:'Horário',v:'Seg-Sáb'}]},
+  {id:'em07',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: pedreiro oficial — obra residencial',preco:'R$ 3.200/mês',precoNum:3200,desc:'Ferramentas e almoço inclusos, CLT.',local:'Salto de Pirapora',nome:'Construtora JR',zap:'15991230002',tempo:'Há 2 dias',destaque:true,foto:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',detalhes:[{l:'Regime',v:'CLT'},{l:'Almoço',v:'Incluso'}]},
+  {id:'em08',cat:'empregos',catLabel:'💼 Empregos',titulo:'Procuro emprego — auxiliar administrativo',preco:'A combinar',precoNum:0,desc:'Administração, Excel avançado, disponível imediato.',local:'Salto de Pirapora',nome:'Ana Paula Ramos',zap:'15992340002',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Formação',v:'Administração'},{l:'Excel',v:'Avançado'}]},
+  {id:'em09',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: professor de inglês — escola particular',preco:'R$ 2.800/mês',precoNum:2800,desc:'30h semanais, CLT.',local:'Salto de Pirapora',nome:'Escola Anglo',zap:'15993450002',tempo:'Há 4 dias',destaque:false,foto:null,detalhes:[{l:'Carga',v:'30h/semana'},{l:'Regime',v:'CLT'}]},
+  {id:'em10',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: operador de caixa — supermercado',preco:'R$ 1.650/mês',precoNum:1650,desc:'Treinamento oferecido. VA, VT e plano de saúde.',local:'Jd. das Flores',nome:'Super Bom Preço',zap:'15994560002',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Regime',v:'CLT'},{l:'Benefícios',v:'VA+VT+PS'}]},
+  {id:'em11',cat:'empregos',catLabel:'💼 Empregos',titulo:'Procuro emprego — jardineiro paisagista',preco:'A combinar',precoNum:0,desc:'15 anos em paisagismo, poda e irrigação.',local:'Salto de Pirapora',nome:'Seu Toninho',zap:'15995670002',tempo:'Há 5 dias',destaque:false,foto:null,detalhes:[{l:'Exp.',v:'15 anos'},{l:'Irrigação',v:'Sim'}]},
+  {id:'em12',cat:'empregos',catLabel:'💼 Empregos',titulo:'Vaga: nutricionista — academia local',preco:'R$ 3.500/mês',precoNum:3500,desc:'Atendimento e planos alimentares, horário flexível.',local:'Centro',nome:'Academia Força Total',zap:'15996780002',tempo:'Há 3 dias',destaque:true,foto:'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80',detalhes:[{l:'Horário',v:'Flexível'},{l:'Regime',v:'CLT ou PJ'}]},
+  {id:'sv01',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Pintura residencial — orçamento grátis',preco:'Consulte',precoNum:0,desc:'Residencial e comercial, materiais premium, garantia 2 anos.',local:'Salto de Pirapora',nome:'Pinturas Irmãos Costa',zap:'15997890002',tempo:'Há 1 dia',destaque:true,foto:'https://images.unsplash.com/photo-1562664377-709f2c337eb2?w=800&q=80',detalhes:[{l:'Garantia',v:'2 anos'},{l:'Orçamento',v:'Gratuito'}]},
+  {id:'sv02',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Dedetização — certificado ANVISA',preco:'A partir de R$ 180',precoNum:180,desc:'Cupins, baratas, ratos. Atendimento em 24h.',local:'Salto de Pirapora',nome:'Dedetiza Já',zap:'15998900002',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Certificado',v:'ANVISA'},{l:'Prazo',v:'24h'}]},
+  {id:'sv03',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Instalação de ar-condicionado split',preco:'A partir de R$ 250',precoNum:250,desc:'Instalação, manutenção e higienização. Nota fiscal.',local:'Salto de Pirapora',nome:'Gelo & Cia',zap:'15999010002',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Serviço',v:'Inst. e manutenção'},{l:'NF',v:'Emitida'}]},
+  {id:'sv04',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Encanador 24h — emergências',preco:'A partir de R$ 120',precoNum:120,desc:'Vazamentos, entupimentos e instalações. 24h.',local:'Salto de Pirapora',nome:'Hidráulica 24h',zap:'15990120002',tempo:'Hoje',destaque:true,foto:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',detalhes:[{l:'Disponível',v:'24 horas'},{l:'Emergência',v:'Sim'}]},
+  {id:'sv05',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Contabilidade para MEI e empresas',preco:'A partir de R$ 89/mês',precoNum:89,desc:'20 anos de experiência, MEI e Simples Nacional.',local:'Centro',nome:'Contábil Assessoria',zap:'15991230003',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'MEI',v:'Sim'},{l:'Exp.',v:'20 anos'}]},
+  {id:'sv06',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Buffet de churrasco — eventos',preco:'A partir de R$ 45/pessoa',precoNum:45,desc:'30 a 500 pessoas, bebidas e equipamentos inclusos.',local:'Salto de Pirapora',nome:'Churrasco do Zé',zap:'15992340003',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Mínimo',v:'30 pessoas'},{l:'Bebidas',v:'Incluso'}]},
+  {id:'sv07',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Fotografia e filmagem — casamentos',preco:'A partir de R$ 1.800',precoNum:1800,desc:'10 anos de experiência, drone e álbum digital.',local:'Salto de Pirapora',nome:'Estúdio Foco',zap:'15993450003',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80',detalhes:[{l:'Drone',v:'Sim'},{l:'Entrega',v:'30 dias'}]},
+  {id:'sv08',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Reforço escolar — matemática e física',preco:'R$ 60/hora',precoNum:60,desc:'Professor engenheiro, 10 anos de exp. Presencial ou online.',local:'Salto de Pirapora',nome:'Prof. Alexandre',zap:'15994560003',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Modalidade',v:'Presencial/Online'},{l:'Nível',v:'Médio/Vestibular'}]},
+  {id:'sv09',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Design gráfico e sites',preco:'A partir de R$ 350',precoNum:350,desc:'Logos, identidade visual, sites. Entrega rápida.',local:'Salto de Pirapora',nome:'Criativa Studio',zap:'15995670003',tempo:'Há 5 dias',destaque:false,foto:null,detalhes:[{l:'Revisões',v:'Incluídas'},{l:'Prazo',v:'7 dias'}]},
+  {id:'sv10',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Mudança e carreto — seguro de carga',preco:'A partir de R$ 200',precoNum:200,desc:'Equipe especializada, caminhão baú e seguro.',local:'Salto de Pirapora',nome:'Mudanças Confiança',zap:'15996780003',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Veículo',v:'Caminhão baú'},{l:'Seguro',v:'Sim'}]},
+  {id:'sv11',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Cuidadora de idosos — período integral',preco:'R$ 2.200/mês',precoNum:2200,desc:'Curso técnico, 7 anos de experiência.',local:'Salto de Pirapora',nome:'Fernanda Cuidados',zap:'15997890003',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Turno',v:'Integral ou diurno'},{l:'Exp.',v:'7 anos'}]},
+  {id:'sv12',cat:'servicos',catLabel:'🔧 Serviços',titulo:'Manutenção de computadores e notebooks',preco:'A partir de R$ 80',precoNum:80,desc:'Formatação, limpeza, peças. Domicílio ou loja.',local:'Centro',nome:'InfoFix Assistência',zap:'15998900003',tempo:'Há 3 dias',destaque:true,foto:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',detalhes:[{l:'Domicílio',v:'Sim'},{l:'Prazo',v:'1 dia útil'}]},
+  {id:'cv01',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Geladeira Brastemp Frost Free 375L',preco:'R$ 1.200',precoNum:1200,desc:'2 anos de uso, funcionando perfeitamente. Inox frost free.',local:'Jd. das Flores',nome:'Claudia Regina',zap:'15999010003',tempo:'Há 2 dias',destaque:true,foto:'https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&q=80',detalhes:[{l:'Marca',v:'Brastemp'},{l:'Capacidade',v:'375L'}]},
+  {id:'cv02',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'TV Samsung 55" QLED 4K',preco:'R$ 2.800',precoNum:2800,desc:'HDR, 120Hz, 3 HDMI. NF e caixa original.',local:'Centro',nome:'Eduardo Martins',zap:'15990120003',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Marca',v:'Samsung'},{l:'Resolução',v:'4K'}]},
+  {id:'cv03',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Sofá 3 lugares — suede bege',preco:'R$ 650',precoNum:650,desc:'Confortável, sem manchas. Entrego na cidade.',local:'Vila Nova',nome:'Rosana Alves',zap:'15991230004',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Material',v:'Suede'},{l:'Lugares',v:'3'}]},
+  {id:'cv04',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Kit ferramentas Stanley 220 peças',preco:'R$ 890',precoNum:890,desc:'Seminovo, todas as peças presentes.',local:'Salto de Pirapora',nome:'Seu Antônio',zap:'15992340004',tempo:'Há 4 dias',destaque:false,foto:null,detalhes:[{l:'Marca',v:'Stanley'},{l:'Peças',v:'220'}]},
+  {id:'cv05',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'iPhone 13 128GB — azul — zero arranhão',preco:'R$ 2.900',precoNum:2900,desc:'Bateria 92%, desbloqueado, capinha e película.',local:'Centro',nome:'Luana Ferreira',zap:'15993450004',tempo:'Hoje',destaque:true,foto:'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=800&q=80',detalhes:[{l:'Modelo',v:'iPhone 13'},{l:'Bateria',v:'92%'}]},
+  {id:'cv06',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Mesa de escritório L com cadeira',preco:'R$ 480',precoNum:480,desc:'MDF, cadeira ergonômica com rodas, ótimo estado.',local:'Jd. Europa',nome:'Thiago Lopes',zap:'15994560004',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Material',v:'MDF'},{l:'Cadeira',v:'Inclusa'}]},
+  {id:'cv07',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Violão Yamaha F310 — com case',preco:'R$ 420',precoNum:420,desc:'Case, afinador e método de aprendizado incluso.',local:'Salto de Pirapora',nome:'Guilherme Músico',zap:'15995670004',tempo:'Há 5 dias',destaque:false,foto:null,detalhes:[{l:'Marca',v:'Yamaha'},{l:'Acessórios',v:'Case + Afinador'}]},
+  {id:'cv08',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Churrasqueira de alvenaria — nunca usada',preco:'R$ 350',precoNum:350,desc:'Tijolos refratários, grelha e espeto. Nunca instalada.',local:'Centro',nome:'Marcelo Souza',zap:'15996780004',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Material',v:'Alvenaria'},{l:'Estado',v:'Nunca usado'}]},
+  {id:'cv09',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Coleção livros didáticos — ensino médio 2022',preco:'R$ 180',precoNum:180,desc:'6 disciplinas completas: mat, fís, quím, biol, hist e port.',local:'Salto de Pirapora',nome:'Patrícia Estudante',zap:'15997890004',tempo:'Há 6 dias',destaque:false,foto:null,detalhes:[{l:'Ano',v:'2022'},{l:'Disciplinas',v:'6 matérias'}]},
+  {id:'cv10',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Kit academia doméstica completo',preco:'R$ 2.400',precoNum:2400,desc:'Estação, banco, halteres 2-20kg, barra e anilhas.',local:'Jd. das Flores',nome:'Academia em Casa',zap:'15998900004',tempo:'Há 1 dia',destaque:true,foto:'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80',detalhes:[{l:'Halteres',v:'2 a 20kg'},{l:'Estado',v:'Seminovo'}]},
+  {id:'cv11',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Máquina de costura industrial Singer',preco:'R$ 1.800',precoNum:1800,desc:'Industrial reta com mesa e motor.',local:'Salto de Pirapora',nome:'Dona Ana',zap:'15999010004',tempo:'Há 4 dias',destaque:false,foto:null,detalhes:[{l:'Marca',v:'Singer'},{l:'Mesa',v:'Inclusa'}]},
+  {id:'cv12',cat:'compravenda',catLabel:'🛍️ Compra e venda',titulo:'Bicicleta infantil aro 16 — pouco uso',preco:'R$ 220',precoNum:220,desc:'Rodinhas e cestinha. Cor rosa, freios ok.',local:'Vila Nova',nome:'Mãe da Bia',zap:'15990120004',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Aro',v:'16'},{l:'Cor',v:'Rosa'}]},
+  {id:'an01',cat:'animais',catLabel:'🐾 Animais',titulo:'Labrador filhote dourado — vacinado',preco:'R$ 800',precoNum:800,desc:'Macho, 2 meses, 1ª vacina em dia, pais pedigree.',local:'Salto de Pirapora',nome:'Canil Boa Esperança',zap:'15991230005',tempo:'Há 2 dias',destaque:true,foto:'https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&q=80',detalhes:[{l:'Raça',v:'Labrador'},{l:'Sexo',v:'Macho'}]},
+  {id:'an02',cat:'animais',catLabel:'🐾 Animais',titulo:'Adoção — gatos adultos castrados e vacinados',preco:'Gratuito',precoNum:0,desc:'3 gatos, castrados, vacinados e vermifugados.',local:'Centro',nome:'ONG Patinhas',zap:'15992340005',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Castrado',v:'Sim'},{l:'Vacina',v:'Em dia'}]},
+  {id:'an03',cat:'animais',catLabel:'🐾 Animais',titulo:'Calopsita cinza — mansa — com gaiola',preco:'R$ 350',precoNum:350,desc:'Adulta, come na mão, vendo com gaiola.',local:'Jd. Europa',nome:'Dono da Piti',zap:'15993450005',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Gaiola',v:'Inclusa'},{l:'Manso',v:'Sim'}]},
+  {id:'an04',cat:'animais',catLabel:'🐾 Animais',titulo:'Border Collie fêmea — 3 meses — pedigree',preco:'R$ 2.500',precoNum:2500,desc:'Tricolor, pedigree CBKC, vacinada.',local:'Salto de Pirapora',nome:'Canil Border Stars',zap:'15994560005',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1503256207526-0d5523f31ef4?w=800&q=80',detalhes:[{l:'Raça',v:'Border Collie'},{l:'Pedigree',v:'CBKC'}]},
+  {id:'an05',cat:'animais',catLabel:'🐾 Animais',titulo:'Aquário completo 200L com 20 peixes',preco:'R$ 780',precoNum:780,desc:'Filtro, iluminação LED, aquecedor e 20 tropicais.',local:'Salto de Pirapora',nome:'Aquário do João',zap:'15995670005',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Capacidade',v:'200L'},{l:'Peixes',v:'20 tropicais'}]},
+  {id:'an06',cat:'animais',catLabel:'🐾 Animais',titulo:'Coelhos anões holandeses — 45 dias',preco:'R$ 120',precoNum:120,desc:'Diversas cores, saudáveis.',local:'Vila Nova',nome:'Criadora Simone',zap:'15996780005',tempo:'Há 5 dias',destaque:false,foto:null,detalhes:[{l:'Raça',v:'Anão holandês'},{l:'Cores',v:'Diversas'}]},
+  {id:'an07',cat:'animais',catLabel:'🐾 Animais',titulo:'Golden Retriever macho — 4 meses',preco:'R$ 1.800',precoNum:1800,desc:'Dourado, 4 meses, vacinado. 12 anos de criadouro.',local:'Jd. das Flores',nome:'Canil Golden SP',zap:'15997890005',tempo:'Hoje',destaque:true,foto:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80',detalhes:[{l:'Sexo',v:'Macho'},{l:'Idade',v:'4 meses'}]},
+  {id:'an08',cat:'animais',catLabel:'🐾 Animais',titulo:'Galinhas caipiras poedeiras — 6 meses',preco:'R$ 35 cada',precoNum:35,desc:'Mínimo 5 unidades, postura garantida.',local:'Zona rural',nome:'Sítio São Bento',zap:'15998900005',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Tipo',v:'Caipira poedeira'},{l:'Mínimo',v:'5 unidades'}]},
+  {id:'an09',cat:'animais',catLabel:'🐾 Animais',titulo:'Adoção — vira-lata caramelo adulto',preco:'Gratuito',precoNum:0,desc:'Castrado, vacinado, convive bem com crianças.',local:'Centro',nome:'Gatil e Canil SOS',zap:'15999010005',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Castrado',v:'Sim'},{l:'Crianças',v:'Convive bem'}]},
+  {id:'an10',cat:'animais',catLabel:'🐾 Animais',titulo:'Betta macho azul royal — com aquário',preco:'R$ 45',precoNum:45,desc:'Adulto, saudável, mini aquário e ração inclusos.',local:'Salto de Pirapora',nome:'Aquarismo & Cia',zap:'15990120005',tempo:'Há 6 dias',destaque:false,foto:null,detalhes:[{l:'Sexo',v:'Macho'},{l:'Aquário',v:'Incluso'}]},
+  {id:'an11',cat:'animais',catLabel:'🐾 Animais',titulo:'Cavalo Quarto de Milha castão — manso',preco:'R$ 12.000',precoNum:12000,desc:'5 anos, manso, castrado, documentação ok.',local:'Zona rural',nome:'Haras Santa Fé',zap:'15991230006',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80',detalhes:[{l:'Raça',v:'Quarto de Milha'},{l:'Idade',v:'5 anos'}]},
+  {id:'an12',cat:'animais',catLabel:'🐾 Animais',titulo:'Jabuti piranga 8cm — com terrário',preco:'R$ 180',precoNum:180,desc:'Saudável, terrário e acessórios inclusos.',local:'Salto de Pirapora',nome:'Répteis Exóticos',zap:'15992340006',tempo:'Há 2 dias',destaque:false,foto:null,detalhes:[{l:'Tamanho',v:'8cm'},{l:'Terrário',v:'Incluso'}]},
+  {id:'ag01',cat:'agro',catLabel:'🌱 Agro',titulo:'Sítio 5 alqueires — escritura — água e luz',preco:'R$ 380.000',precoNum:380000,desc:'5 alqueires, escritura definitiva, mina própria, luz trifásica, 2 açudes.',local:'Zona rural — 12km',nome:'Imóveis Rural SP',zap:'15993450006',tempo:'Há 2 dias',destaque:true,foto:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',detalhes:[{l:'Área',v:'5 alqueires'},{l:'Água',v:'Mina própria'}]},
+  {id:'ag02',cat:'agro',catLabel:'🌱 Agro',titulo:'Trator Massey Ferguson 4x4 — reformado',preco:'R$ 95.000',precoNum:95000,desc:'Carregadeira, cabine, A/C, pneus novos.',local:'Zona rural',nome:'Agro Máquinas',zap:'15994560006',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Tração',v:'4x4'},{l:'Cabine',v:'Com A/C'}]},
+  {id:'ag03',cat:'agro',catLabel:'🌱 Agro',titulo:'Mudas de eucalipto grandis — 1000 un.',preco:'R$ 0,90/un.',precoNum:900,desc:'Prontas para plantio, 30cm, entrego em caminhão.',local:'Zona rural',nome:'Viveiro Verde Campo',zap:'15995670006',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Espécie',v:'E. grandis'},{l:'Mínimo',v:'1.000 mudas'}]},
+  {id:'ag04',cat:'agro',catLabel:'🌱 Agro',titulo:'Colheitadeira John Deere S780 2019',preco:'R$ 1.200.000',precoNum:1200000,desc:'620cv, plataforma 30 pés, AutoTrac, laudo aprovado.',local:'Zona rural',nome:'Agro Premium',zap:'15996780006',tempo:'Há 5 dias',destaque:true,foto:'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80',detalhes:[{l:'Marca',v:'John Deere'},{l:'Plataforma',v:'30 pés'}]},
+  {id:'ag05',cat:'agro',catLabel:'🌱 Agro',titulo:'Mel artesanal — registro SIF — caixas 1kg',preco:'R$ 28/kg',precoNum:28,desc:'Puro, sem aditivos, laudos disponíveis.',local:'Zona rural',nome:'Apiário São José',zap:'15997890006',tempo:'Há 1 dia',destaque:false,foto:null,detalhes:[{l:'Tipo',v:'Puro artesanal'},{l:'Registro',v:'SIF'}]},
+  {id:'ag06',cat:'agro',catLabel:'🌱 Agro',titulo:'Arrendamento — 30 alqueires para lavoura',preco:'R$ 25 sacas/alq.',precoNum:750,desc:'Plano, mecanizável, irrigação, contrato 5 anos.',local:'Zona rural — 15km',nome:'Fazenda Esperança',zap:'15998900006',tempo:'Há 4 dias',destaque:false,foto:null,detalhes:[{l:'Área',v:'30 alqueires'},{l:'Contrato',v:'5 anos'}]},
+  {id:'ag07',cat:'agro',catLabel:'🌱 Agro',titulo:'Vaca leiteira nelore-holandês — 18L/dia',preco:'R$ 4.800',precoNum:4800,desc:'5 anos, 3 parições, vacinada e vermifugada.',local:'Zona rural',nome:'Fazenda Leiteira',zap:'15999010006',tempo:'Há 2 dias',destaque:true,foto:'https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?w=800&q=80',detalhes:[{l:'Produção',v:'18L/dia'},{l:'Parições',v:'3'}]},
+  {id:'ag08',cat:'agro',catLabel:'🌱 Agro',titulo:'Grade aradora 20 discos hidráulica',preco:'R$ 18.500',precoNum:18500,desc:'20 discos 26", revisada, mínimo 80cv.',local:'Zona rural',nome:'Implementos Agro',zap:'15990120006',tempo:'Há 6 dias',destaque:false,foto:null,detalhes:[{l:'Discos',v:'20 x 26"'},{l:'Mín. trator',v:'80cv'}]},
+  {id:'ag09',cat:'agro',catLabel:'🌱 Agro',titulo:'Alevinos de tilápia — reversão garantida',preco:'R$ 0,30/un.',precoNum:300,desc:'Nilótica 30 dias, embalagem com oxigênio, mínimo 1000.',local:'Piscicultura Água Viva',nome:'Aquicultura SP',zap:'15991230007',tempo:'Há 3 dias',destaque:false,foto:null,detalhes:[{l:'Espécie',v:'Tilápia nilótica'},{l:'Mínimo',v:'1.000 un.'}]},
+  {id:'ag10',cat:'agro',catLabel:'🌱 Agro',titulo:'Pulverizador costal elétrico 20L',preco:'R$ 380',precoNum:380,desc:'Lítio, 4h de autonomia, bico ajustável, seminovo.',local:'Salto de Pirapora',nome:'Agropecuária Central',zap:'15992340007',tempo:'Hoje',destaque:false,foto:null,detalhes:[{l:'Capacidade',v:'20L'},{l:'Autonomia',v:'4 horas'}]},
+  {id:'ag11',cat:'agro',catLabel:'🌱 Agro',titulo:'Sementes milho híbrido AG 8088 PRO',preco:'R$ 420/saca',precoNum:420,desc:'Alto potencial produtivo, resistente à lagarta, certificado MAPA.',local:'Zona rural',nome:'Sementes Agro',zap:'15993450007',tempo:'Há 4 dias',destaque:true,foto:'https://images.unsplash.com/photo-1601598851547-4302969d0614?w=800&q=80',detalhes:[{l:'Híbrido',v:'AG 8088 PRO'},{l:'Certificado',v:'MAPA'}]},
+  {id:'ag12',cat:'agro',catLabel:'🌱 Agro',titulo:'Estufa agrícola 10x30m — completa',preco:'R$ 8.500',precoNum:8500,desc:'Ferro galvanizado, cobertura 150 micras, irrigação inclusa.',local:'Zona rural',nome:'Estufas Campo Verde',zap:'15994560007',tempo:'Há 5 dias',destaque:false,foto:null,detalhes:[{l:'Tamanho',v:'10x30m'},{l:'Irrigação',v:'Inclusa'}]}
+];
+
+// ══ NAVEGAÇÃO CENTRAL ══
+function nav(destino) {
+  document.querySelectorAll('.pagina').forEach(function(p){ p.classList.remove('ativa'); });
+  document.querySelectorAll('.nav-links li a').forEach(function(a){ a.classList.remove('ativo'); });
+  var el = document.getElementById('nav-' + destino);
+  if (el) el.classList.add('ativo');
+  var cats = ['cidade','politica','economia','saude','esportes','tecnologia'];
+  if (destino === 'home') {
+    document.getElementById('pg-home').classList.add('ativa');
+    document.getElementById('nav-home').classList.add('ativo');
+    renderHome();
+  } else if (cats.indexOf(destino) >= 0) {
+    document.getElementById('pg-categoria').classList.add('ativa');
+    renderCategoria(destino);
+  } else if (destino === 'classificados') {
+    document.getElementById('pg-classificados').classList.add('ativa');
+    document.getElementById('nav-classificados').classList.add('ativo');
+    renderCls();
+  } else if (destino === 'cls-form') {
+    document.getElementById('pg-cls-form').classList.add('ativa');
+    document.getElementById('nav-classificados').classList.add('ativo');
+  } else if (destino === 'cls-painel') {
+    document.getElementById('pg-cls-painel').classList.add('ativa');
+    document.getElementById('nav-classificados').classList.add('ativo');
+  } else if (destino === 'cls-anuncio') {
+    document.getElementById('pg-cls-anuncio').classList.add('ativa');
+    document.getElementById('nav-classificados').classList.add('ativo');
+  } else if (destino === 'noticia') {
+    document.getElementById('pg-noticia').classList.add('ativa');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+  fecharMenu();
+}
+
+function renderHome() {
+  var ultimas = ['n5','n6','n7','ne1','nt1','n8'];
+  var cats = ['cidade','politica','economia','saude','esportes','tecnologia'];
+  var markup = '<div class="secao-titulo"><h2>Últimas Notícias</h2><a onclick="nav(\'cidade\')">Ver todas →</a></div>';
+  markup += '<div class="noticias-grid">';
+  ultimas.forEach(function(id){ markup += cardN(id); });
+  markup += '</div>';
+  cats.forEach(function(cat){
+    var info = catInfo[cat];
+    markup += '<div class="secao-titulo"><h2>' + info.nome + '</h2><a onclick="nav(\'' + cat + '\')">Ver todas →</a></div>';
+    markup += '<div class="noticias-grid">';
+    (catNoticias[cat]||[]).forEach(function(id){ markup += cardN(id); });
+    markup += '</div>';
+  });
+  document.getElementById('home-content').innerHTML = markup;
+}
+
+function cardN(id) {
+  var n = noticias[id]; if(!n) return '';
+  return '<div class="noticia-card" onclick="verNoticia(\'' + id + '\')">'
+    + '<img class="noticia-img" src="' + n.img + '" alt="" loading="lazy">'
+    + '<span class="noticia-categoria">' + n.catLabel + '</span>'
+    + '<h3 class="noticia-titulo">' + n.titulo + '</h3>'
+    + '<p class="noticia-resumo">' + n.sub + '</p>'
+    + '<span class="noticia-meta">' + n.data + '</span></div>';
+}
+
+function renderCategoria(cat) {
+  var info = catInfo[cat];
+  document.getElementById('cat-titulo').textContent = info.nome;
+  document.getElementById('cat-subtitulo').textContent = info.sub;
+  document.getElementById('lista-categoria').innerHTML = (catNoticias[cat]||[]).map(function(id){
+    var n = noticias[id];
+    return '<div class="noticia-lista-item" onclick="verNoticia(\'' + id + '\')">'
+      + '<img class="noticia-lista-img" src="' + n.img + '" alt="">'
+      + '<div><span class="noticia-categoria">' + n.catLabel + '</span>'
+      + '<div class="noticia-lista-titulo">' + n.titulo + '</div>'
+      + '<div class="noticia-lista-resumo">' + n.sub + '</div>'
+      + '<span class="noticia-meta">' + n.data + '</span></div></div>';
+  }).join('');
+}
+
+function verNoticia(id) {
+  var n = noticias[id]; if(!n) return;
+  document.getElementById('noticia-categoria').textContent = n.catLabel;
+  document.getElementById('noticia-cat-link').textContent = n.catLabel;
+  document.getElementById('noticia-titulo-bc').textContent = n.titulo;
+  document.getElementById('noticia-titulo').textContent = n.titulo;
+  document.getElementById('noticia-subtitulo').textContent = n.sub;
+  document.getElementById('noticia-data').textContent = n.data;
+  document.getElementById('noticia-img').src = n.img;
+  document.getElementById('noticia-corpo').innerHTML = n.corpo;
+  nav('noticia');
+}
+
+function filtrarCat(cat, btn) {
+  catAtualCls = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('catativo'); });
+  btn.classList.add('catativo');
+  renderCls();
+}
+
+function renderCls() {
+  var busca = (document.getElementById('cls-busca')||{value:''}).value.toLowerCase();
+  var catFiltro = catAtualCls;
+  var todos = anuncios.filter(function(a){
+    var catOk = catFiltro==='todos' || a.cat===catFiltro;
+    var buscaOk = !busca || a.titulo.toLowerCase().indexOf(busca)>=0 || a.desc.toLowerCase().indexOf(busca)>=0;
+    return catOk && buscaOk;
+  });
+  var total = todos.length;
+  var cnt = document.getElementById('cls-count');
+  if(cnt) cnt.innerHTML = '<strong>' + total + '</strong> anuncio' + (total!==1?'s':'') + ' encontrado' + (total!==1?'s':'');
+  var grid = document.getElementById('cls-grid');
+  if(!grid) return;
+  var markup = '';
+
+  // BLOCO DESTAQUES GERAIS
+  var destaques = todos.filter(function(a){ return a.destaque; });
+  if(destaques.length > 0 && catFiltro === 'todos') {
+    markup += '<div class="cls-secao-titulo"><span>Destaques</span></div>';
+    markup += '<div class="cls-secao-grid">';
+    destaques.forEach(function(a){ markup += cardCls(a); });
+    markup += '</div>';
+  }
+
+  // BLOCOS POR CATEGORIA
+  var cats = [
+    {key:'imoveis',label:'Imoveis'},
+    {key:'veiculos',label:'Veiculos'},
+    {key:'empregos',label:'Empregos'},
+    {key:'servicos',label:'Servicos'},
+    {key:'compravenda',label:'Compra e venda'},
+    {key:'animais',label:'Animais'},
+    {key:'agro',label:'Agro'}
+  ];
+  cats.forEach(function(cat){
+    if(catFiltro !== 'todos' && catFiltro !== cat.key) return;
+    var itens = todos.filter(function(a){ return a.cat===cat.key; });
+    if(itens.length === 0) return;
+    var ordenados = itens.filter(function(a){ return a.destaque; }).concat(itens.filter(function(a){ return !a.destaque; }));
+    markup += '<div class="cls-secao-titulo"><span>' + cat.label + '</span></div>';
+    markup += '<div class="cls-secao-grid">';
+    ordenados.forEach(function(a){ markup += cardCls(a); });
+    markup += '</div>';
+  });
+
+  grid.innerHTML = markup;
+}
+
+function cardCls(a) {
+  var foto = a.foto ? '<img class="card-foto" src="' + a.foto + '" alt="" loading="lazy">' : '';
+  return '<div class="anuncio-card' + (a.destaque?' destaque':'') + '" onclick="verAnuncio(' + "'" + a.id + "'" + ')">'
+    + (a.destaque ? '<span class="selo-destaque">Destaque</span>' : '')
+    + foto
+    + '<div class="card-body"><span class="card-cat">' + a.catLabel + '</span>'
+    + '<div class="card-titulo">' + a.titulo + '</div>'
+    + '<div class="card-preco' + (a.precoNum===0?' gratis':'') + '">' + a.preco + '</div>'
+    + '<div class="card-local">' + a.local + '</div>'
+    + '<div class="card-meta"><span class="card-tempo">' + a.tempo + '</span>'
+    + '<button class="btn-zap" onclick="event.stopPropagation();window.open(' + "'https://wa.me/55'" + ' + a.zap)">WhatsApp</button>'
+    + '</div></div></div>';
+}
+
+function verAnuncio(id) {
+  var a = anuncios.find(function(x){return x.id===id;}); if(!a) return;
+  document.getElementById('an-cat-link').textContent = a.catLabel;
+  document.getElementById('an-titulo-bc').textContent = a.titulo;
+  document.getElementById('an-titulo').textContent = a.titulo;
+  document.getElementById('an-preco').textContent = a.preco;
+  document.getElementById('an-preco').className = 'anuncio-preco' + (a.precoNum===0?' gratis':'');
+  document.getElementById('an-desc').textContent = a.desc;
+  document.getElementById('an-nome').textContent = a.nome;
+  document.getElementById('an-desde').textContent = 'Anunciante no Informou · ' + a.tempo;
+  document.getElementById('an-wpp-btn').onclick = function(){
+    window.open('https://wa.me/55' + a.zap + '?text=Olá! Vi o anúncio "' + a.titulo + '" no Informou e tenho interesse.');
+  };
+  document.getElementById('an-destaque-badge').style.display = a.destaque ? 'inline-flex' : 'none';
+  document.getElementById('an-foto-wrap').innerHTML = a.foto
+    ? '<img class="anuncio-foto-main" src="' + a.foto + '" alt="">'
+    : '<div class="anuncio-sem-foto-box">📷 Anúncio sem foto</div>';
+  document.getElementById('an-detalhes').innerHTML = (a.detalhes||[]).map(function(d){
+    return '<div class="detalhe-row"><label>' + d.l + '</label><span>' + d.v + '</span></div>';
+  }).join('');
+  nav('cls-anuncio');
+}
+
+function selPlano(plano) {
+  document.getElementById('plano-gratis').classList.toggle('sel', plano==='gratis');
+  document.getElementById('plano-destaque').classList.toggle('sel', plano==='destaque');
+  var isD = plano==='destaque';
+  document.getElementById('upload-area').className = 'upload-area' + (isD?' desbloqueado':'');
+  document.getElementById('upload-txt').textContent = isD ? 'Clique para adicionar até 5 fotos' : 'Fotos disponíveis apenas no plano Destaque';
+  document.getElementById('upload-sub').textContent = isD ? 'Formatos: JPG, PNG. Máx. 5MB por foto.' : 'Faça upgrade para adicionar até 5 fotos';
+  document.getElementById('foto-label').textContent = isD ? 'até 5 fotos disponíveis' : 'disponível no plano Destaque';
+}
+
+function submeterCls(e) {
+  e.preventDefault();
+  document.getElementById('cls-form').style.display = 'none';
+  document.getElementById('cls-sucesso').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('aberto'); }
+function fecharMenu() { document.getElementById('navLinks').classList.remove('aberto'); }
+
+// DATA
+var dias=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+var meses=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var agora=new Date();
+document.getElementById('data-hoje').textContent=dias[agora.getDay()].charAt(0).toUpperCase()+dias[agora.getDay()].slice(1)+', '+agora.getDate()+' de '+meses[agora.getMonth()]+' de '+agora.getFullYear();
+
+
+function abrirSidebar() {
+  document.getElementById('sidebar-nav').classList.add('aberta');
+  document.getElementById('sidebar-overlay').classList.add('aberta');
+  document.body.style.overflow = 'hidden';
+}
+function fecharSidebar() {
+  document.getElementById('sidebar-nav').classList.remove('aberta');
+  document.getElementById('sidebar-overlay').classList.remove('aberta');
+  document.body.style.overflow = '';
+}
+
+
+function cardCls(a) {
+  var foto = a.foto ? '<img class="card-foto" src="' + a.foto + '" alt="" loading="lazy">' : '';
+  return '<div class="masonry-item"><div class="anuncio-card' + (a.destaque?' destaque':'') + '" onclick="verAnuncio(' + "'" + a.id + "'" + ')">'
+    + (a.destaque ? '<span class="selo-destaque">Destaque</span>' : '')
+    + foto
+    + '<div class="card-body"><span class="card-cat">' + a.catLabel + '</span>'
+    + '<div class="card-titulo">' + a.titulo + '</div>'
+    + '<div class="card-preco' + (a.precoNum===0?' gratis':'') + '">' + a.preco + '</div>'
+    + '<div class="card-local">' + a.local + '</div>'
+    + '<div class="card-meta"><span class="card-tempo">' + a.tempo + '</span>'
+    + '<button class="btn-zap" onclick="event.stopPropagation();window.open(' + "'https://wa.me/55'" + ' + a.zap)">WhatsApp</button>'
+    + '</div></div></div></div>';
+}
+// INICIALIZAÇÃO
+renderHome();
+</script>
+</body>
+</html>
